@@ -1,4 +1,4 @@
-#include "Field.h"
+#include "../include/Field.h"
 
 Field::Field(const int& screenWidth, const int& screenHeight, const int& cellNum)
 {

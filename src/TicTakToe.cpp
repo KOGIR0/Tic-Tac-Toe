@@ -1,4 +1,4 @@
-#include "TicTakToe.h"
+#include "../include/TicTakToe.h"
 #include <iostream>
 
 TicTakToe::TicTakToe()
