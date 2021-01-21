@@ -1,4 +1,4 @@
-#include "../include/Text.h"
+#include "Text.h"
 
 Text::Text(const std::string& fontPath, const std::string& string,
     const int& fontSize, const sf::Color& color)

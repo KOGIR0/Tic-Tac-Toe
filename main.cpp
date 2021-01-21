@@ -3,10 +3,10 @@
 #include <string>
 #include <map>
 
-#include "include/Field.h"
-#include "include/Sprite.h"
-#include "include/TicTakToe.h"
-#include "include/Text.h"
+#include "Field.h"
+#include "Sprite.h"
+#include "TicTakToe.h"
+#include "Text.h"
 
 /*void updateWindow(sf::RenderWindow& window, TicTakToe& game)
 {

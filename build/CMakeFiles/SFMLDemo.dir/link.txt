@@ -1,0 +1,1 @@
+/usr/bin/c++   -std=c++11  -rdynamic CMakeFiles/SFMLDemo.dir/main.cpp.o CMakeFiles/SFMLDemo.dir/src/Button.cpp.o CMakeFiles/SFMLDemo.dir/src/Field.cpp.o CMakeFiles/SFMLDemo.dir/src/Sprite.cpp.o CMakeFiles/SFMLDemo.dir/src/Text.cpp.o CMakeFiles/SFMLDemo.dir/src/TicTakToe.cpp.o  -o SFMLDemo  -lsfml-system -lsfml-window -lsfml-graphics -lsfml-network -lsfml-audio 

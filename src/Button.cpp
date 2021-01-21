@@ -1,4 +1,4 @@
-#include "../include/Button.h"
+#include "Button.h"
 
 Button::Button(const float& width, const float& height, const sf::Vector2f& position)
 {
