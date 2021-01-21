@@ -62,24 +62,6 @@ TicTakToe.h
 Text.h
 /home/kogiro/Public/ticTacToe/Text.h
 
-/home/kogiro/Public/ticTacToe/src/Button.cpp
-Button.h
-/home/kogiro/Public/ticTacToe/src/Button.h
-
-/home/kogiro/Public/ticTacToe/src/Field.cpp
-Field.h
-/home/kogiro/Public/ticTacToe/src/Field.h
-
-/home/kogiro/Public/ticTacToe/src/Sprite.cpp
-Sprite.h
-/home/kogiro/Public/ticTacToe/src/Sprite.h
-iostream
--
-
-/home/kogiro/Public/ticTacToe/src/Text.cpp
-Text.h
-/home/kogiro/Public/ticTacToe/src/Text.h
-
 /home/kogiro/Public/ticTacToe/src/TicTakToe.cpp
 TicTakToe.h
 /home/kogiro/Public/ticTacToe/src/TicTakToe.h

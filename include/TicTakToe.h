@@ -25,20 +25,14 @@ class TicTakToe
 public:
     TicTakToe();
     ~TicTakToe();
-    void setSymbol(sf::Vector2f position, std::string s);
-    bool checkWinCondition(const sf::Vector2f& lCkC, const std::vector<std::vector<bool>>& boolMap);
-    bool getVictory() { return victory; }
     bool isRunning();
-    int getPlayerNum() { return this->playerNum; }
-    int getNextPlayerNum() { return (this->playerNum + 1) % MAX_PLAYER_NUM; }
-    void setVictory(bool v) { this->victory = v; }
-    void nextPlayer() { this->playerNum = (this->playerNum + 1) % MAX_PLAYER_NUM; }
     void process();
     void updateWindow();
 
 private:
     int playerNum;
     bool victory;
+    int fillCellsNum;
     std::vector<std::vector<symbol>> map;
     std::map<int, std::string> playerSign;
     std::map<int, std::string> playerName;
@@ -48,6 +42,15 @@ private:
     Button* restartBtn;
     Text* text;
 
+    void setSymbol(sf::Vector2f position, std::string s);
+    bool checkWinCondition(const sf::Vector2f& lCkC, const std::vector<std::vector<bool>>& boolMap);
+    bool getVictory() { return victory; }
+    int getPlayerNum() { return this->playerNum; }
+    int getNextPlayerNum() { return (this->playerNum + 1) % MAX_PLAYER_NUM; }
+    void setVictory(bool v) { this->victory = v; }
+    void nextPlayer() { this->playerNum = (this->playerNum + 1) % MAX_PLAYER_NUM; }
+
+    bool checkDraw();
     void resizeGameElements(const sf::Event::SizeEvent &newSize);
     void processLeftBtnClick(const sf::Vector2i& mousePos);
     void createSymbolMap();

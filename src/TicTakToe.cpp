@@ -3,6 +3,7 @@
 
 TicTakToe::TicTakToe()
 {
+    this->fillCellsNum = 0;
     this->playerNum = 0;
     this->victory = false;
     playerSign = { {0, "X"}, {1, "O"} };
@@ -48,26 +49,38 @@ void TicTakToe::processLeftBtnClick(const sf::Vector2i& mousePos)
     {
         restartBtn->setFillColor(sf::Color(160, 160, 160));
         text->setString("Cross turn");
+        this->fillCellsNum = 0;
         this->playerNum = 0;
         this->victory = false;
         createSymbolMap();
         ticTacToeField->clear();
     }
-    if (cellPosition.x != -1 && !getVictory())
+    if (cellPosition.x != -1 && !this->getVictory())
     {
-        if (!ticTacToeField->cellWasClicked(cellPosition))
+        if (!this->ticTacToeField->cellWasClicked(cellPosition))
         {
-            text->setString(playerName[getNextPlayerNum()] + " turn");
-            setSymbol(cellPosition, playerSign[getPlayerNum()]);
-            ticTacToeField->markCell(cellPosition.x, cellPosition.y, playerSign[getPlayerNum()] + ".png");
-            nextPlayer();
+            this->fillCellsNum++;
+            this->text->setString(playerName[getNextPlayerNum()] + " turn");
+            this->setSymbol(cellPosition, playerSign[getPlayerNum()]);
+            this->ticTacToeField->markCell(cellPosition.x, cellPosition.y, playerSign[getPlayerNum()] + ".png");
+            this->nextPlayer();
         }
         if (checkWinCondition(cellPosition, ticTacToeField->getBoolMap()))
         {
             setVictory(true);
             text->setString(playerName[this->getNextPlayerNum()] + " Won!");
         }
+        if (checkDraw())
+        {
+            setVictory(true);
+            text->setString("Draw");
+        }
     }
+}
+
+bool TicTakToe::checkDraw()
+{
+    return fillCellsNum == (map.size() * map.size());
 }
 
 void TicTakToe::resizeGameElements(const sf::Event::SizeEvent& es)
