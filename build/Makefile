@@ -258,32 +258,32 @@ src/Text.cpp.s:
 	$(MAKE) -f CMakeFiles/TicTacToe.exe.dir/build.make CMakeFiles/TicTacToe.exe.dir/src/Text.cpp.s
 .PHONY : src/Text.cpp.s
 
-src/TicTakToe.o: src/TicTakToe.cpp.o
+src/TicTacToe.o: src/TicTacToe.cpp.o
 
-.PHONY : src/TicTakToe.o
+.PHONY : src/TicTacToe.o
 
 # target to build an object file
-src/TicTakToe.cpp.o:
-	$(MAKE) -f CMakeFiles/TicTacToe.exe.dir/build.make CMakeFiles/TicTacToe.exe.dir/src/TicTakToe.cpp.o
-.PHONY : src/TicTakToe.cpp.o
+src/TicTacToe.cpp.o:
+	$(MAKE) -f CMakeFiles/TicTacToe.exe.dir/build.make CMakeFiles/TicTacToe.exe.dir/src/TicTacToe.cpp.o
+.PHONY : src/TicTacToe.cpp.o
 
-src/TicTakToe.i: src/TicTakToe.cpp.i
+src/TicTacToe.i: src/TicTacToe.cpp.i
 
-.PHONY : src/TicTakToe.i
+.PHONY : src/TicTacToe.i
 
 # target to preprocess a source file
-src/TicTakToe.cpp.i:
-	$(MAKE) -f CMakeFiles/TicTacToe.exe.dir/build.make CMakeFiles/TicTacToe.exe.dir/src/TicTakToe.cpp.i
-.PHONY : src/TicTakToe.cpp.i
+src/TicTacToe.cpp.i:
+	$(MAKE) -f CMakeFiles/TicTacToe.exe.dir/build.make CMakeFiles/TicTacToe.exe.dir/src/TicTacToe.cpp.i
+.PHONY : src/TicTacToe.cpp.i
 
-src/TicTakToe.s: src/TicTakToe.cpp.s
+src/TicTacToe.s: src/TicTacToe.cpp.s
 
-.PHONY : src/TicTakToe.s
+.PHONY : src/TicTacToe.s
 
 # target to generate assembly for a file
-src/TicTakToe.cpp.s:
-	$(MAKE) -f CMakeFiles/TicTacToe.exe.dir/build.make CMakeFiles/TicTacToe.exe.dir/src/TicTakToe.cpp.s
-.PHONY : src/TicTakToe.cpp.s
+src/TicTacToe.cpp.s:
+	$(MAKE) -f CMakeFiles/TicTacToe.exe.dir/build.make CMakeFiles/TicTacToe.exe.dir/src/TicTacToe.cpp.s
+.PHONY : src/TicTacToe.cpp.s
 
 # Help Target
 help:
@@ -309,9 +309,9 @@ help:
 	@echo "... src/Text.o"
 	@echo "... src/Text.i"
 	@echo "... src/Text.s"
-	@echo "... src/TicTakToe.o"
-	@echo "... src/TicTakToe.i"
-	@echo "... src/TicTakToe.s"
+	@echo "... src/TicTacToe.o"
+	@echo "... src/TicTacToe.i"
+	@echo "... src/TicTacToe.s"
 .PHONY : help
 
 

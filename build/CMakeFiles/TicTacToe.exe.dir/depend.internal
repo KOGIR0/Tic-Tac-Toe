@@ -6,7 +6,7 @@ CMakeFiles/TicTacToe.exe.dir/main.cpp.o
  ../include/Field.h
  ../include/Sprite.h
  ../include/Text.h
- ../include/TicTakToe.h
+ ../include/TicTacToe.h
  /home/kogiro/Public/ticTacToe/main.cpp
 CMakeFiles/TicTacToe.exe.dir/src/Button.cpp.o
  ../include/Button.h
@@ -23,10 +23,10 @@ CMakeFiles/TicTacToe.exe.dir/src/Sprite.cpp.o
 CMakeFiles/TicTacToe.exe.dir/src/Text.cpp.o
  ../include/Text.h
  /home/kogiro/Public/ticTacToe/src/Text.cpp
-CMakeFiles/TicTacToe.exe.dir/src/TicTakToe.cpp.o
+CMakeFiles/TicTacToe.exe.dir/src/TicTacToe.cpp.o
  ../include/Button.h
  ../include/Field.h
  ../include/Sprite.h
  ../include/Text.h
- ../include/TicTakToe.h
- /home/kogiro/Public/ticTacToe/src/TicTakToe.cpp
+ ../include/TicTacToe.h
+ /home/kogiro/Public/ticTacToe/src/TicTacToe.cpp

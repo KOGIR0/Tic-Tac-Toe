@@ -4,7 +4,7 @@ file(REMOVE_RECURSE
   "CMakeFiles/TicTacToe.exe.dir/src/Field.cpp.o"
   "CMakeFiles/TicTacToe.exe.dir/src/Sprite.cpp.o"
   "CMakeFiles/TicTacToe.exe.dir/src/Text.cpp.o"
-  "CMakeFiles/TicTacToe.exe.dir/src/TicTakToe.cpp.o"
+  "CMakeFiles/TicTacToe.exe.dir/src/TicTacToe.cpp.o"
   "TicTacToe.exe"
   "TicTacToe.exe.pdb"
 )

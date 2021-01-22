@@ -9,7 +9,7 @@ set(CMAKE_DEPENDS_CHECK_CXX
   "/home/kogiro/Public/ticTacToe/src/Field.cpp" "/home/kogiro/Public/ticTacToe/build/CMakeFiles/TicTacToe.exe.dir/src/Field.cpp.o"
   "/home/kogiro/Public/ticTacToe/src/Sprite.cpp" "/home/kogiro/Public/ticTacToe/build/CMakeFiles/TicTacToe.exe.dir/src/Sprite.cpp.o"
   "/home/kogiro/Public/ticTacToe/src/Text.cpp" "/home/kogiro/Public/ticTacToe/build/CMakeFiles/TicTacToe.exe.dir/src/Text.cpp.o"
-  "/home/kogiro/Public/ticTacToe/src/TicTakToe.cpp" "/home/kogiro/Public/ticTacToe/build/CMakeFiles/TicTacToe.exe.dir/src/TicTakToe.cpp.o"
+  "/home/kogiro/Public/ticTacToe/src/TicTacToe.cpp" "/home/kogiro/Public/ticTacToe/build/CMakeFiles/TicTacToe.exe.dir/src/TicTacToe.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 
