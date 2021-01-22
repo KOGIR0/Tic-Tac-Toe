@@ -11,6 +11,14 @@ Text::Text(const std::string& fontPath, const std::string& string,
     this->text.setCharacterSize(fontSize);
     this->text.setFillColor(color);
     this->text.setString(string);
+    sf::FloatRect textRect = text.getLocalBounds();
+    text.setOrigin(textRect.left + textRect.width/2.0f,
+               textRect.top  + textRect.height/2.0f);
+}
+
+sf::Vector2f Text::getSize()
+{
+    return {this->text.getLocalBounds().width, this->text.getLocalBounds().height};
 }
 
 void Text::draw(sf::RenderTarget& target, sf::RenderStates states) const

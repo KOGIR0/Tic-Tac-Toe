@@ -13,7 +13,8 @@ public:
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
     void setString(const std::string& string);
     void setPosition(const sf::Vector2f& position);
-
+    sf::Vector2f getSize();
+    
 private:
     sf::Text text;
     sf::Font font;

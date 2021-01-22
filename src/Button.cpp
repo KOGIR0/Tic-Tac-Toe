@@ -20,6 +20,11 @@ Button::Button(const std::string& texturePath, const float& width, const float& 
     this->rs.setTexture(&this->texture);
 }
 
+sf::Vector2f Button::getSize()
+{
+    return this->rs.getSize();
+}
+
 
 Button::Button(const Button& button)
 {

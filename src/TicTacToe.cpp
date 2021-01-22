@@ -19,8 +19,9 @@ TicTacToe::TicTacToe()
 
     ticTacToeField = new Field(FIELD_PERCENTAGE_X * SCREEN_WIDTH, FIELD_PERCENTAGE_Y * SCREEN_HEIGHT, CELL_NUMBER);
 
-    text = new Text("times-new-roman.ttf");
-    text->setPosition({ 0, FIELD_PERCENTAGE_Y * SCREEN_HEIGHT });
+    text = new Text("times-new-roman.ttf", "Cross Turn");
+    text->setPosition({this->text->getSize().x / 2.0f ,
+        FIELD_PERCENTAGE_Y * SCREEN_HEIGHT + this->text->getSize().y / 2.0f + 5});
 
     restartBtn = new Button("restartBtn.png", 100.f, SCREEN_HEIGHT * (1.f - FIELD_PERCENTAGE_Y),
         { SCREEN_WIDTH - 100.f, FIELD_PERCENTAGE_Y * SCREEN_HEIGHT });
@@ -107,7 +108,8 @@ void TicTacToe::resizeGameElements(const sf::Event::SizeEvent& es)
     sf::Vector2u newSize = window->getSize();
     ticTacToeField->setFieldSize(FIELD_PERCENTAGE_X * newSize.x, FIELD_PERCENTAGE_Y * newSize.y);
 
-    text->setPosition({ 0, FIELD_PERCENTAGE_Y * newSize.y });
+    text->setPosition({ this->text->getSize().x / 2.0f,
+         FIELD_PERCENTAGE_Y * newSize.y + this->text->getSize().y / 2.0f + 5});
 
     restartBtn->setPosition({ newSize.x - 100.f, FIELD_PERCENTAGE_Y * newSize.y });
     restartBtn->setSize({ 100.f, newSize.y * (1.f - FIELD_PERCENTAGE_Y) });

@@ -19,6 +19,7 @@ public:
     void setPosition(const sf::Vector2f& position);
     void setSize(const sf::Vector2f& size);
     sf::Vector2f getPosition();
+    sf::Vector2f getSize();
 
 private:
     sf::RectangleShape rs;

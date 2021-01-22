@@ -6,12 +6,22 @@ MainMenu::MainMenu(const sf::Vector2f& screenSize)
     this->offlineBtn = new Button(200, 40, {screenSize.x / 2 - 100, screenSize.y / 2 - 80});
     this->offlineBtn->setFillColor(sf::Color::Green);
     this->offlineTxt = new Text("times-new-roman.ttf", "offline game");
-    offlineTxt->setPosition(this->offlineBtn->getPosition() + sf::Vector2f{30, 5});
+
+    // put text in center of button
+    sf::Vector2f btnSize = this->offlineBtn->getSize();
+    sf::Vector2f btnPos = this->offlineBtn->getPosition();
+    sf::Vector2f newTxtPos = btnPos + sf::Vector2f({btnSize.x, btnSize.y});
+    offlineTxt->setPosition(newTxtPos);
 
     this->onlineBtn = new Button(200, 40, {screenSize.x / 2 - 100, screenSize.y / 2 + 80});
     this->onlineBtn->setFillColor(sf::Color::Red);
     this->onlineTxt = new Text("times-new-roman.ttf", "online game");
-    onlineTxt->setPosition(this->onlineBtn->getPosition() + sf::Vector2f{30, 5});
+
+    // set text in center of the button
+    btnSize = this->onlineBtn->getSize();
+    btnPos = this->onlineBtn->getPosition();
+    newTxtPos = btnPos + sf::Vector2f({btnSize.x, btnSize.y});
+    onlineTxt->setPosition(newTxtPos);
 }
 
 MainMenu::~MainMenu()
@@ -26,10 +36,16 @@ void MainMenu::resizeMenu(const sf::Vector2f& screenSize)
 {
     this->screenSize = screenSize;
     this->offlineBtn->setPosition({screenSize.x / 2 - 100, screenSize.y / 2 - 80});
-    offlineTxt->setPosition(this->offlineBtn->getPosition() + sf::Vector2f{30, 5});
+    sf::Vector2f btnSize = this->offlineBtn->getSize();
+    sf::Vector2f btnPos = this->offlineBtn->getPosition();
+    sf::Vector2f newTxtPos = btnPos + sf::Vector2f({btnSize.x / 2.0f, btnSize.y / 2.0f});
+    offlineTxt->setPosition(newTxtPos);
 
     this->onlineBtn->setPosition({screenSize.x / 2 - 100, screenSize.y / 2 + 80});
-    onlineTxt->setPosition(this->onlineBtn->getPosition() + sf::Vector2f{30, 5});
+    btnSize = this->onlineBtn->getSize();
+    btnPos = this->onlineBtn->getPosition();
+    newTxtPos = btnPos + sf::Vector2f({btnSize.x / 2.0f, btnSize.y / 2.0f});
+    onlineTxt->setPosition(newTxtPos);
 }
 
 // from top to bottom
