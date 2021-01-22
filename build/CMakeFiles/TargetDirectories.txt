@@ -1,3 +1,0 @@
-/home/kogiro/Public/ticTacToe/build/CMakeFiles/rebuild_cache.dir
-/home/kogiro/Public/ticTacToe/build/CMakeFiles/edit_cache.dir
-/home/kogiro/Public/ticTacToe/build/CMakeFiles/TicTacToe.exe.dir
