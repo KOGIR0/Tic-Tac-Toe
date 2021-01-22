@@ -5,11 +5,11 @@
 
 #include "Field.h"
 #include "Sprite.h"
-#include "TicTakToe.h"
+#include "TicTacToe.h"
 #include "Text.h"
 
 int main() {
-    TicTakToe game;
+    TicTacToe game;
 
     while (game.isRunning())
     {

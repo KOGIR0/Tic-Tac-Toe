@@ -20,11 +20,11 @@ enum class symbol
     nought
 };
 
-class TicTakToe
+class TicTacToe
 {
 public:
-    TicTakToe();
-    ~TicTakToe();
+    TicTacToe();
+    ~TicTacToe();
     bool isRunning();
     void process();
     void updateWindow();

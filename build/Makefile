@@ -123,33 +123,6 @@ TicTacToe.exe/fast:
 	$(MAKE) -f CMakeFiles/TicTacToe.exe.dir/build.make CMakeFiles/TicTacToe.exe.dir/build
 .PHONY : TicTacToe.exe/fast
 
-main.o: main.cpp.o
-
-.PHONY : main.o
-
-# target to build an object file
-main.cpp.o:
-	$(MAKE) -f CMakeFiles/TicTacToe.exe.dir/build.make CMakeFiles/TicTacToe.exe.dir/main.cpp.o
-.PHONY : main.cpp.o
-
-main.i: main.cpp.i
-
-.PHONY : main.i
-
-# target to preprocess a source file
-main.cpp.i:
-	$(MAKE) -f CMakeFiles/TicTacToe.exe.dir/build.make CMakeFiles/TicTacToe.exe.dir/main.cpp.i
-.PHONY : main.cpp.i
-
-main.s: main.cpp.s
-
-.PHONY : main.s
-
-# target to generate assembly for a file
-main.cpp.s:
-	$(MAKE) -f CMakeFiles/TicTacToe.exe.dir/build.make CMakeFiles/TicTacToe.exe.dir/main.cpp.s
-.PHONY : main.cpp.s
-
 src/Button.o: src/Button.cpp.o
 
 .PHONY : src/Button.o
@@ -285,6 +258,33 @@ src/TicTacToe.cpp.s:
 	$(MAKE) -f CMakeFiles/TicTacToe.exe.dir/build.make CMakeFiles/TicTacToe.exe.dir/src/TicTacToe.cpp.s
 .PHONY : src/TicTacToe.cpp.s
 
+src/main.o: src/main.cpp.o
+
+.PHONY : src/main.o
+
+# target to build an object file
+src/main.cpp.o:
+	$(MAKE) -f CMakeFiles/TicTacToe.exe.dir/build.make CMakeFiles/TicTacToe.exe.dir/src/main.cpp.o
+.PHONY : src/main.cpp.o
+
+src/main.i: src/main.cpp.i
+
+.PHONY : src/main.i
+
+# target to preprocess a source file
+src/main.cpp.i:
+	$(MAKE) -f CMakeFiles/TicTacToe.exe.dir/build.make CMakeFiles/TicTacToe.exe.dir/src/main.cpp.i
+.PHONY : src/main.cpp.i
+
+src/main.s: src/main.cpp.s
+
+.PHONY : src/main.s
+
+# target to generate assembly for a file
+src/main.cpp.s:
+	$(MAKE) -f CMakeFiles/TicTacToe.exe.dir/build.make CMakeFiles/TicTacToe.exe.dir/src/main.cpp.s
+.PHONY : src/main.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -294,9 +294,6 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... edit_cache"
 	@echo "... TicTacToe.exe"
-	@echo "... main.o"
-	@echo "... main.i"
-	@echo "... main.s"
 	@echo "... src/Button.o"
 	@echo "... src/Button.i"
 	@echo "... src/Button.s"
@@ -312,6 +309,9 @@ help:
 	@echo "... src/TicTacToe.o"
 	@echo "... src/TicTacToe.i"
 	@echo "... src/TicTacToe.s"
+	@echo "... src/main.o"
+	@echo "... src/main.i"
+	@echo "... src/main.s"
 .PHONY : help
 
 

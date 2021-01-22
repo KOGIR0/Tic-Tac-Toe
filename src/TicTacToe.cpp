@@ -1,7 +1,7 @@
-#include "TicTakToe.h"
+#include "TicTacToe.h"
 #include <iostream>
 
-TicTakToe::TicTakToe()
+TicTacToe::TicTacToe()
 {
     this->fillCellsNum = 0;
     this->playerNum = 0;
@@ -25,7 +25,7 @@ TicTakToe::TicTakToe()
     restartBtn->setFillColor(sf::Color::White);
 }
 
-TicTakToe::~TicTakToe()
+TicTacToe::~TicTacToe()
 {
     delete this->window;
     delete this->ticTacToeField;
@@ -33,7 +33,7 @@ TicTakToe::~TicTakToe()
     delete this->restartBtn;
 }
 
-void TicTakToe::updateWindow()
+void TicTacToe::updateWindow()
 {
     this->window->clear();
     this->window->draw(*this->ticTacToeField);
@@ -42,7 +42,7 @@ void TicTakToe::updateWindow()
     this->window->display();
 }
 
-void TicTakToe::processLeftBtnClick(const sf::Vector2i& mousePos)
+void TicTacToe::processLeftBtnClick(const sf::Vector2i& mousePos)
 {
     sf::Vector2f cellPosition = ticTacToeField->getClickedCellIndexes(mousePos);
     if (restartBtn->clicked(mousePos))
@@ -70,7 +70,7 @@ void TicTakToe::processLeftBtnClick(const sf::Vector2i& mousePos)
             setVictory(true);
             text->setString(playerName[this->getNextPlayerNum()] + " Won!");
         }
-        if (checkDraw())
+        if (checkDraw() && !this->getVictory())
         {
             setVictory(true);
             text->setString("Draw");
@@ -78,12 +78,12 @@ void TicTakToe::processLeftBtnClick(const sf::Vector2i& mousePos)
     }
 }
 
-bool TicTakToe::checkDraw()
+bool TicTacToe::checkDraw()
 {
     return fillCellsNum == (map.size() * map.size());
 }
 
-void TicTakToe::resizeGameElements(const sf::Event::SizeEvent& es)
+void TicTacToe::resizeGameElements(const sf::Event::SizeEvent& es)
 {
     window->setView(sf::View(sf::FloatRect(0, 0, es.width, es.height)));
     sf::Vector2u newSize = window->getSize();
@@ -95,7 +95,7 @@ void TicTakToe::resizeGameElements(const sf::Event::SizeEvent& es)
     restartBtn->setSize({ 100.f, newSize.y * (1.f - FIELD_PERCENTAGE_Y) });
 }
 
-void TicTakToe::process()
+void TicTacToe::process()
 {
     sf::Event event;
     while (window->pollEvent(event))
@@ -122,19 +122,19 @@ void TicTakToe::process()
     }
 }
 
-bool TicTakToe::isRunning()
+bool TicTacToe::isRunning()
 {
     return this->window->isOpen();
 }
 
-void TicTakToe::createSymbolMap()
+void TicTacToe::createSymbolMap()
 {
     std::vector<symbol> line(CELL_NUMBER);
     std::vector<std::vector<symbol>> newSymbolMap(CELL_NUMBER, line);
     map = newSymbolMap;
 }
 
-void TicTakToe::setSymbol(sf::Vector2f position, std::string s)
+void TicTacToe::setSymbol(sf::Vector2f position, std::string s)
 {
     if (s == "X")
     {
@@ -146,14 +146,14 @@ void TicTakToe::setSymbol(sf::Vector2f position, std::string s)
     }
 }
 
-bool TicTakToe::checkWinCondition(const sf::Vector2f& lCkC, const std::vector<std::vector<bool>>& boolMap)
+bool TicTacToe::checkWinCondition(const sf::Vector2f& lCkC, const std::vector<std::vector<bool>>& boolMap)
 {
     symbol lastSymbol = map[lCkC.x][lCkC.y];
     return checkHorizontalLines(lCkC, boolMap, lastSymbol) || checkVerticalLine(lCkC, boolMap, lastSymbol)
         || checkDiagonals(lCkC, boolMap, lastSymbol);
 }
 
-bool TicTakToe::checkWinAndIncrement(int& num, const bool& condition)
+bool TicTacToe::checkWinAndIncrement(int& num, const bool& condition)
 {
     if (condition)
     {
@@ -169,7 +169,7 @@ bool TicTakToe::checkWinAndIncrement(int& num, const bool& condition)
     return false;
 }
 
-bool TicTakToe::checkDiagonals(const sf::Vector2f& lCkC, const std::vector<std::vector<bool>>& boolMap, const symbol& symbol)
+bool TicTacToe::checkDiagonals(const sf::Vector2f& lCkC, const std::vector<std::vector<bool>>& boolMap, const symbol& symbol)
 {
     // from left upper corner to right bottom corner
     int count = 0;
@@ -207,7 +207,7 @@ bool TicTakToe::checkDiagonals(const sf::Vector2f& lCkC, const std::vector<std::
     return false;
 }
 
-bool TicTakToe::checkHorizontalLines(const sf::Vector2f& lCkC, const std::vector<std::vector<bool>>& boolMap, const symbol& symbol)
+bool TicTacToe::checkHorizontalLines(const sf::Vector2f& lCkC, const std::vector<std::vector<bool>>& boolMap, const symbol& symbol)
 {
     int count = 0;
     for (int j = 0; j < map[lCkC.x].size(); j++)
@@ -218,7 +218,7 @@ bool TicTakToe::checkHorizontalLines(const sf::Vector2f& lCkC, const std::vector
     return false;
 }
 
-bool TicTakToe::checkVerticalLine(const sf::Vector2f& lCkC, const std::vector<std::vector<bool>>& boolMap, const symbol& symbol)
+bool TicTacToe::checkVerticalLine(const sf::Vector2f& lCkC, const std::vector<std::vector<bool>>& boolMap, const symbol& symbol)
 {
     int count = 0;
     for (int j = 0; j < map[lCkC.y].size(); j++)

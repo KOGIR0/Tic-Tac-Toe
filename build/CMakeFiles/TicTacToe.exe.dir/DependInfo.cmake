@@ -4,12 +4,12 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "/home/kogiro/Public/ticTacToe/main.cpp" "/home/kogiro/Public/ticTacToe/build/CMakeFiles/TicTacToe.exe.dir/main.cpp.o"
   "/home/kogiro/Public/ticTacToe/src/Button.cpp" "/home/kogiro/Public/ticTacToe/build/CMakeFiles/TicTacToe.exe.dir/src/Button.cpp.o"
   "/home/kogiro/Public/ticTacToe/src/Field.cpp" "/home/kogiro/Public/ticTacToe/build/CMakeFiles/TicTacToe.exe.dir/src/Field.cpp.o"
   "/home/kogiro/Public/ticTacToe/src/Sprite.cpp" "/home/kogiro/Public/ticTacToe/build/CMakeFiles/TicTacToe.exe.dir/src/Sprite.cpp.o"
   "/home/kogiro/Public/ticTacToe/src/Text.cpp" "/home/kogiro/Public/ticTacToe/build/CMakeFiles/TicTacToe.exe.dir/src/Text.cpp.o"
   "/home/kogiro/Public/ticTacToe/src/TicTacToe.cpp" "/home/kogiro/Public/ticTacToe/build/CMakeFiles/TicTacToe.exe.dir/src/TicTacToe.cpp.o"
+  "/home/kogiro/Public/ticTacToe/src/main.cpp" "/home/kogiro/Public/ticTacToe/build/CMakeFiles/TicTacToe.exe.dir/src/main.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 
