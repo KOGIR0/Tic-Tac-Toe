@@ -177,6 +177,33 @@ src/Field.cpp.s:
 	$(MAKE) -f CMakeFiles/TicTacToe.exe.dir/build.make CMakeFiles/TicTacToe.exe.dir/src/Field.cpp.s
 .PHONY : src/Field.cpp.s
 
+src/MainMenu.o: src/MainMenu.cpp.o
+
+.PHONY : src/MainMenu.o
+
+# target to build an object file
+src/MainMenu.cpp.o:
+	$(MAKE) -f CMakeFiles/TicTacToe.exe.dir/build.make CMakeFiles/TicTacToe.exe.dir/src/MainMenu.cpp.o
+.PHONY : src/MainMenu.cpp.o
+
+src/MainMenu.i: src/MainMenu.cpp.i
+
+.PHONY : src/MainMenu.i
+
+# target to preprocess a source file
+src/MainMenu.cpp.i:
+	$(MAKE) -f CMakeFiles/TicTacToe.exe.dir/build.make CMakeFiles/TicTacToe.exe.dir/src/MainMenu.cpp.i
+.PHONY : src/MainMenu.cpp.i
+
+src/MainMenu.s: src/MainMenu.cpp.s
+
+.PHONY : src/MainMenu.s
+
+# target to generate assembly for a file
+src/MainMenu.cpp.s:
+	$(MAKE) -f CMakeFiles/TicTacToe.exe.dir/build.make CMakeFiles/TicTacToe.exe.dir/src/MainMenu.cpp.s
+.PHONY : src/MainMenu.cpp.s
+
 src/Sprite.o: src/Sprite.cpp.o
 
 .PHONY : src/Sprite.o
@@ -300,6 +327,9 @@ help:
 	@echo "... src/Field.o"
 	@echo "... src/Field.i"
 	@echo "... src/Field.s"
+	@echo "... src/MainMenu.o"
+	@echo "... src/MainMenu.i"
+	@echo "... src/MainMenu.s"
 	@echo "... src/Sprite.o"
 	@echo "... src/Sprite.i"
 	@echo "... src/Sprite.s"

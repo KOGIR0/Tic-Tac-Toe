@@ -4,6 +4,7 @@
 #include "Field.h"
 #include "SFML/Graphics.hpp"
 #include "Text.h"
+#include "MainMenu.h"
 #include <vector>
 
 #define SCREEN_WIDTH        500.f
@@ -20,6 +21,12 @@ enum class symbol
     nought
 };
 
+enum class gameStatus
+{
+    menu,
+    game
+};
+
 class TicTacToe
 {
 public:
@@ -33,6 +40,7 @@ private:
     int playerNum;
     bool victory;
     int fillCellsNum;
+    gameStatus status;
     std::vector<std::vector<symbol>> map;
     std::map<int, std::string> playerSign;
     std::map<int, std::string> playerName;
@@ -41,6 +49,7 @@ private:
     Field* ticTacToeField;
     Button* restartBtn;
     Text* text;
+    MainMenu* menu;
 
     void setSymbol(sf::Vector2f position, std::string s);
     bool checkWinCondition(const sf::Vector2f& lCkC, const std::vector<std::vector<bool>>& boolMap);

@@ -6,6 +6,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 set(CMAKE_DEPENDS_CHECK_CXX
   "/home/kogiro/Public/ticTacToe/src/Button.cpp" "/home/kogiro/Public/ticTacToe/build/CMakeFiles/TicTacToe.exe.dir/src/Button.cpp.o"
   "/home/kogiro/Public/ticTacToe/src/Field.cpp" "/home/kogiro/Public/ticTacToe/build/CMakeFiles/TicTacToe.exe.dir/src/Field.cpp.o"
+  "/home/kogiro/Public/ticTacToe/src/MainMenu.cpp" "/home/kogiro/Public/ticTacToe/build/CMakeFiles/TicTacToe.exe.dir/src/MainMenu.cpp.o"
   "/home/kogiro/Public/ticTacToe/src/Sprite.cpp" "/home/kogiro/Public/ticTacToe/build/CMakeFiles/TicTacToe.exe.dir/src/Sprite.cpp.o"
   "/home/kogiro/Public/ticTacToe/src/Text.cpp" "/home/kogiro/Public/ticTacToe/build/CMakeFiles/TicTacToe.exe.dir/src/Text.cpp.o"
   "/home/kogiro/Public/ticTacToe/src/TicTacToe.cpp" "/home/kogiro/Public/ticTacToe/build/CMakeFiles/TicTacToe.exe.dir/src/TicTacToe.cpp.o"

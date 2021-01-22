@@ -1,6 +1,7 @@
 file(REMOVE_RECURSE
   "CMakeFiles/TicTacToe.exe.dir/src/Button.cpp.o"
   "CMakeFiles/TicTacToe.exe.dir/src/Field.cpp.o"
+  "CMakeFiles/TicTacToe.exe.dir/src/MainMenu.cpp.o"
   "CMakeFiles/TicTacToe.exe.dir/src/Sprite.cpp.o"
   "CMakeFiles/TicTacToe.exe.dir/src/Text.cpp.o"
   "CMakeFiles/TicTacToe.exe.dir/src/TicTacToe.cpp.o"

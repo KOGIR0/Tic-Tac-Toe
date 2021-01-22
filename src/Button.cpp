@@ -31,6 +31,11 @@ void Button::setPosition(const sf::Vector2f& position)
     rs.setPosition(position);
 }
 
+sf::Vector2f Button::getPosition()
+{
+    return this->rs.getPosition();
+}
+
 void Button::setSize(const sf::Vector2f& size)
 {
     rs.setSize(size);

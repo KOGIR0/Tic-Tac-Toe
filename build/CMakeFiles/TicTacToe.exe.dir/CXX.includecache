@@ -22,6 +22,14 @@ Sprite.h
 Button.h
 ../include/Button.h
 
+../include/MainMenu.h
+SFML/Graphics.hpp
+-
+Button.h
+../include/Button.h
+Text.h
+../include/Text.h
+
 ../include/Sprite.h
 SFML/Graphics.hpp
 -
@@ -41,6 +49,8 @@ SFML/Graphics.hpp
 ../include/SFML/Graphics.hpp
 Text.h
 ../include/Text.h
+MainMenu.h
+../include/MainMenu.h
 vector
 -
 
@@ -49,22 +59,4 @@ TicTacToe.h
 /home/kogiro/Public/ticTacToe/src/TicTacToe.h
 iostream
 -
-
-/home/kogiro/Public/ticTacToe/src/main.cpp
-iostream
--
-vector
--
-string
--
-map
--
-Field.h
-/home/kogiro/Public/ticTacToe/src/Field.h
-Sprite.h
-/home/kogiro/Public/ticTacToe/src/Sprite.h
-TicTacToe.h
-/home/kogiro/Public/ticTacToe/src/TicTacToe.h
-Text.h
-/home/kogiro/Public/ticTacToe/src/Text.h
 

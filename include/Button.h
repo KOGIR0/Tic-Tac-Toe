@@ -18,6 +18,7 @@ public:
     void setFillColor(sf::Color c);
     void setPosition(const sf::Vector2f& position);
     void setSize(const sf::Vector2f& size);
+    sf::Vector2f getPosition();
 
 private:
     sf::RectangleShape rs;

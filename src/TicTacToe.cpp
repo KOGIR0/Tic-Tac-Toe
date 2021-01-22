@@ -3,6 +3,8 @@
 
 TicTacToe::TicTacToe()
 {
+    this->menu = new MainMenu({SCREEN_WIDTH, SCREEN_HEIGHT});
+    this->status = gameStatus::menu;
     this->fillCellsNum = 0;
     this->playerNum = 0;
     this->victory = false;
@@ -36,14 +38,22 @@ TicTacToe::~TicTacToe()
 void TicTacToe::updateWindow()
 {
     this->window->clear();
+    if(this->status == gameStatus::game)
+    {
     this->window->draw(*this->ticTacToeField);
     this->window->draw(*this->text);
     this->window->draw(*this->restartBtn);
+    } else if (this->status == gameStatus::menu)
+    {
+        this->window->draw(*this->menu);
+    }
     this->window->display();
 }
 
 void TicTacToe::processLeftBtnClick(const sf::Vector2i& mousePos)
 {
+    if(this->status == gameStatus::game)
+    {
     sf::Vector2f cellPosition = ticTacToeField->getClickedCellIndexes(mousePos);
     if (restartBtn->clicked(mousePos))
     {
@@ -76,6 +86,14 @@ void TicTacToe::processLeftBtnClick(const sf::Vector2i& mousePos)
             text->setString("Draw");
         }
     }
+    } else if (this->status == gameStatus::menu)
+    {
+        int clickResult = this->menu->processClick(mousePos);
+        if(clickResult == 1)
+        {
+            this->status = gameStatus::game;
+        }
+    }
 }
 
 bool TicTacToe::checkDraw()
@@ -93,6 +111,8 @@ void TicTacToe::resizeGameElements(const sf::Event::SizeEvent& es)
 
     restartBtn->setPosition({ newSize.x - 100.f, FIELD_PERCENTAGE_Y * newSize.y });
     restartBtn->setSize({ 100.f, newSize.y * (1.f - FIELD_PERCENTAGE_Y) });
+
+    this->menu->resizeMenu({ (float)newSize.x, (float)newSize.y });
 }
 
 void TicTacToe::process()
