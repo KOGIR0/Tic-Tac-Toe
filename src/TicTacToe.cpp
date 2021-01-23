@@ -39,7 +39,7 @@ TicTacToe::~TicTacToe()
 void TicTacToe::updateWindow()
 {
     this->window->clear();
-    if(this->status == gameStatus::game)
+    if(this->status == gameStatus::offlineGame)
     {
     this->window->draw(*this->ticTacToeField);
     this->window->draw(*this->text);
@@ -53,7 +53,7 @@ void TicTacToe::updateWindow()
 
 void TicTacToe::processLeftBtnClick(const sf::Vector2i& mousePos)
 {
-    if(this->status == gameStatus::game)
+    if(this->status == gameStatus::offlineGame)
     {
     sf::Vector2f cellPosition = ticTacToeField->getClickedCellIndexes(mousePos);
     if (restartBtn->clicked(mousePos))
@@ -92,7 +92,10 @@ void TicTacToe::processLeftBtnClick(const sf::Vector2i& mousePos)
         int clickResult = this->menu->processClick(mousePos);
         if(clickResult == 1)
         {
-            this->status = gameStatus::game;
+            this->status = gameStatus::offlineGame;
+        } else if (clickResult == 2)
+        {
+            this->status = gameStatus::onlineGame;
         }
     }
 }

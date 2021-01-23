@@ -24,7 +24,8 @@ enum class symbol
 enum class gameStatus
 {
     menu,
-    game
+    onlineGame,
+    offlineGame
 };
 
 class TicTacToe
