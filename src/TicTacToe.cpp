@@ -3,7 +3,7 @@
 
 TicTacToe::TicTacToe()
 {
-    this->menu = new MainMenu({SCREEN_WIDTH, SCREEN_HEIGHT});
+    this->game_ui = new GameUI(SCREEN_HEIGHT, SCREEN_WIDTH);
     this->status = gameStatus::menu;
     this->fillCellsNum = 0;
     this->playerNum = 0;
@@ -16,24 +16,12 @@ TicTacToe::TicTacToe()
     sf::Image icon;
     icon.loadFromFile("X.png");
     window->setIcon(icon.getSize().x, icon.getSize().y, icon.getPixelsPtr());
-
-    ticTacToeField = new Field(FIELD_PERCENTAGE_X * SCREEN_WIDTH, FIELD_PERCENTAGE_Y * SCREEN_HEIGHT, CELL_NUMBER);
-
-    text = new Text("times-new-roman.ttf", "Cross Turn");
-    text->setPosition({this->text->getSize().x / 2.0f ,
-        FIELD_PERCENTAGE_Y * SCREEN_HEIGHT + this->text->getSize().y / 2.0f + 5});
-
-    restartBtn = new Button("restartBtn.png", 100.f, SCREEN_HEIGHT * (1.f - FIELD_PERCENTAGE_Y),
-        { SCREEN_WIDTH - 100.f, FIELD_PERCENTAGE_Y * SCREEN_HEIGHT });
-    restartBtn->setFillColor(sf::Color::White);
 }
 
 TicTacToe::~TicTacToe()
 {
     delete this->window;
-    delete this->ticTacToeField;
-    delete this->text;
-    delete this->restartBtn;
+    delete this->game_ui;
 }
 
 void TicTacToe::updateWindow()
@@ -41,12 +29,10 @@ void TicTacToe::updateWindow()
     this->window->clear();
     if(this->status == gameStatus::offlineGame)
     {
-    this->window->draw(*this->ticTacToeField);
-    this->window->draw(*this->text);
-    this->window->draw(*this->restartBtn);
+        this->game_ui->drawGame(*this->window);
     } else if (this->status == gameStatus::menu)
     {
-        this->window->draw(*this->menu);
+        this->game_ui->drawMenu(*this->window);
     }
     this->window->display();
 }
@@ -55,41 +41,39 @@ void TicTacToe::processLeftBtnClick(const sf::Vector2i& mousePos)
 {
     if(this->status == gameStatus::offlineGame)
     {
-    sf::Vector2f cellPosition = ticTacToeField->getClickedCellIndexes(mousePos);
-    if (restartBtn->clicked(mousePos))
-    {
-        restartBtn->setFillColor(sf::Color(160, 160, 160));
-        text->setString("Cross turn");
-        this->fillCellsNum = 0;
-        this->playerNum = 0;
-        this->victory = false;
-        createSymbolMap();
-        ticTacToeField->clear();
-    }
-    if (cellPosition.x != -1 && !this->getVictory())
-    {
-        if (!this->ticTacToeField->cellWasClicked(cellPosition))
+        sf::Vector2f cellPosition = this->game_ui->getCellPosition(mousePos);
+        if (this->game_ui->restartClick(mousePos))
         {
-            this->fillCellsNum++;
-            this->text->setString(playerName[getNextPlayerNum()] + " turn");
-            this->setSymbol(cellPosition, playerSign[getPlayerNum()]);
-            this->ticTacToeField->markCell(cellPosition.x, cellPosition.y, playerSign[getPlayerNum()] + ".png");
-            this->nextPlayer();
+            this->fillCellsNum = 0;
+            this->playerNum = 0;
+            this->victory = false;
+            this->createSymbolMap();
+            this->game_ui->reset();
         }
-        if (checkWinCondition(cellPosition, ticTacToeField->getBoolMap()))
+        if (cellPosition.x != -1 && !this->getVictory())
         {
-            setVictory(true);
-            text->setString(playerName[this->getNextPlayerNum()] + " Won!");
+            if (!this->game_ui->fieldWasClicked(cellPosition))
+            {
+                this->fillCellsNum++;
+                this->game_ui->setMsg(playerName[getNextPlayerNum()] + " turn");
+                this->setSymbol(cellPosition, playerSign[getPlayerNum()]);
+                this->game_ui->markCellWithSprite(cellPosition, playerSign[getPlayerNum()] + ".png");
+                this->nextPlayer();
+            }
+            if (checkWinCondition(cellPosition, this->game_ui->getClickedCellsMap()))
+            {
+                setVictory(true);
+                this->game_ui->setMsg(playerName[this->getNextPlayerNum()] + " Won!");
+            }
+            if (checkDraw() && !this->getVictory())
+            {
+                setVictory(true);
+                this->game_ui->setMsg("Draw");
+            }
         }
-        if (checkDraw() && !this->getVictory())
-        {
-            setVictory(true);
-            text->setString("Draw");
-        }
-    }
     } else if (this->status == gameStatus::menu)
     {
-        int clickResult = this->menu->processClick(mousePos);
+        int clickResult = this->game_ui->processMenuClick(mousePos);
         if(clickResult == 1)
         {
             this->status = gameStatus::offlineGame;
@@ -109,15 +93,7 @@ void TicTacToe::resizeGameElements(const sf::Event::SizeEvent& es)
 {
     window->setView(sf::View(sf::FloatRect(0, 0, es.width, es.height)));
     sf::Vector2u newSize = window->getSize();
-    ticTacToeField->setFieldSize(FIELD_PERCENTAGE_X * newSize.x, FIELD_PERCENTAGE_Y * newSize.y);
-
-    text->setPosition({ this->text->getSize().x / 2.0f,
-         FIELD_PERCENTAGE_Y * newSize.y + this->text->getSize().y / 2.0f + 5});
-
-    restartBtn->setPosition({ newSize.x - 100.f, FIELD_PERCENTAGE_Y * newSize.y });
-    restartBtn->setSize({ 100.f, newSize.y * (1.f - FIELD_PERCENTAGE_Y) });
-
-    this->menu->resizeMenu({ (float)newSize.x, (float)newSize.y });
+    this->game_ui->resize(newSize);
 }
 
 void TicTacToe::process()
@@ -138,7 +114,7 @@ void TicTacToe::process()
             }
             break;
         case sf::Event::MouseButtonReleased:
-            restartBtn->setFillColor(sf::Color::White);
+            //restartBtn->setFillColor(sf::Color::White);
             break;
         case sf::Event::Resized:
             this->resizeGameElements(event.size);

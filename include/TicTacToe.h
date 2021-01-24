@@ -6,12 +6,10 @@
 #include "Text.h"
 #include "MainMenu.h"
 #include <vector>
+#include "GameUI.h"
 
 #define SCREEN_WIDTH        500.f
 #define SCREEN_HEIGHT       600.f
-#define FIELD_PERCENTAGE_X  1.f
-#define FIELD_PERCENTAGE_Y  0.9f
-#define CELL_NUMBER         3
 #define MAX_PLAYER_NUM      2
 #define CELLS_TO_WIN        3
 
@@ -47,10 +45,7 @@ private:
     std::map<int, std::string> playerName;
 
     sf::RenderWindow* window;
-    Field* ticTacToeField;
-    Button* restartBtn;
-    Text* text;
-    MainMenu* menu;
+    GameUI* game_ui;
 
     void setSymbol(sf::Vector2f position, std::string s);
     bool checkWinCondition(const sf::Vector2f& lCkC, const std::vector<std::vector<bool>>& boolMap);
