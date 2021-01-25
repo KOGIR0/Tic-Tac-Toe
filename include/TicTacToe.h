@@ -7,24 +7,12 @@
 #include "MainMenu.h"
 #include <vector>
 #include "GameUI.h"
+#include "GameResources.h"
 
 #define SCREEN_WIDTH        500.f
 #define SCREEN_HEIGHT       600.f
 #define MAX_PLAYER_NUM      2
 #define CELLS_TO_WIN        3
-
-enum class symbol
-{
-    cross,
-    nought
-};
-
-enum class gameStatus
-{
-    menu,
-    onlineGame,
-    offlineGame
-};
 
 class TicTacToe
 {
@@ -36,29 +24,16 @@ public:
     void updateWindow();
 
 private:
-    int playerNum;
-    bool victory;
-    int fillCellsNum;
-    gameStatus status;
-    std::vector<std::vector<symbol>> map;
-    std::map<int, std::string> playerSign;
-    std::map<int, std::string> playerName;
-
+    GameResources resources;
     sf::RenderWindow* window;
     GameUI* game_ui;
 
     void setSymbol(sf::Vector2f position, std::string s);
-    bool checkWinCondition(const sf::Vector2f& lCkC, const std::vector<std::vector<bool>>& boolMap);
-    bool getVictory() { return victory; }
-    int getPlayerNum() { return this->playerNum; }
-    int getNextPlayerNum() { return (this->playerNum + 1) % MAX_PLAYER_NUM; }
-    void setVictory(bool v) { this->victory = v; }
-    void nextPlayer() { this->playerNum = (this->playerNum + 1) % MAX_PLAYER_NUM; }
+    bool checkWinCondition(const sf::Vector2f& lCkC);
 
     bool checkDraw();
     void resizeGameElements(const sf::Event::SizeEvent &newSize);
     void processLeftBtnClick(const sf::Vector2i& mousePos);
-    void createSymbolMap();
     bool checkWinAndIncrement(int& num, const bool& condition);
     bool checkDiagonals(const sf::Vector2f& lCkC, const std::vector<std::vector<bool>>& boolMap, const symbol& symbol);
     bool checkHorizontalLines(const sf::Vector2f& lCkC, const std::vector<std::vector<bool>>& boolMap, const symbol& symbol);

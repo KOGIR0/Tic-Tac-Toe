@@ -30,6 +30,8 @@ public:
     bool fieldWasClicked(const sf::Vector2f& cellPos);
     std::vector<std::vector<bool>> getClickedCellsMap();
     sf::Vector2f getCellPosition(const sf::Vector2i& pos);
+    int getFieldSize() { return this->ticTacToeField->getSize(); }
+    int getFilledCellsNum() { return this->ticTacToeField->getFilledCellsNum(); }
 
 private:
     Field* ticTacToeField;

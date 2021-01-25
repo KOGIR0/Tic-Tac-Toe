@@ -1,8 +1,11 @@
 #include "Field.h"
+#include <iostream>
 
 Field::Field(const int& screenWidth, const int& screenHeight, const int& cellNum)
 {
     this->cellNum = cellNum;
+    this->fieldSize = cellNum * cellNum;
+    this->filledCellsNum = 0;
     setFieldSize(screenWidth, screenHeight);
     createBoolMapAndDefaultSpriteMap();
 }
@@ -15,6 +18,7 @@ sf::Vector2f Field::getCellSize()
 void Field::clear()
 {
     this->createBoolMapAndDefaultSpriteMap();
+    this->filledCellsNum = 0;
 }
 
 sf::Vector2f Field::getClickedCellIndexes(const sf::Vector2i& position)
@@ -73,6 +77,7 @@ void Field::draw(sf::RenderTarget& target, sf::RenderStates states) const
 
 void Field::setFieldSize(const float& width, const float& height)
 {
+    std::cout << "Field resize start" << std::endl;
     std::vector<std::vector<Button>> newfield;
     this->cellSize = sf::Vector2f(float(width) / cellNum, float(height) / cellNum);
     if (cellNum % 2 == 0)
@@ -85,6 +90,7 @@ void Field::setFieldSize(const float& width, const float& height)
     }
     field = newfield;
     this->setCellSize(this->cellSize);
+    std::cout << "Field resize over" << std::endl;
 }
 
 std::vector<std::vector<Button>> Field::fillEvenCellNum()
@@ -180,6 +186,7 @@ void Field::markCell(const int& i, const int& j, const std::string& texturePath)
         map[i][j] = true;
         spriteMap[i][j].setTexture(texturePath);
         adjustCellToCellSize(i, j);
+        this->filledCellsNum++;
     }
 }
 

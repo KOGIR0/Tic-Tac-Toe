@@ -28,8 +28,8 @@ MainMenu::~MainMenu()
 {
     delete this->offlineTxt;
     delete this->onlineTxt;
-    delete this->offlineTxt;
-    delete this->onlineTxt;
+    delete this->offlineBtn;
+    delete this->onlineBtn;
 }
 
 void MainMenu::resizeMenu(const sf::Vector2f& screenSize)

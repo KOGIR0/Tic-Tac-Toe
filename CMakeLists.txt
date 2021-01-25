@@ -3,8 +3,19 @@ project(TicTacToe.exe)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 
-set(SOURCE_FILES src/main.cpp src/GameUI.cpp src/MainMenu.cpp src/Button.cpp
- src/Field.cpp src/Sprite.cpp src/Text.cpp src/TicTacToe.cpp)
+set(SOURCE_FILES
+    main.cpp
+    GameUI.cpp
+    MainMenu.cpp
+    Button.cpp
+    Field.cpp
+    Sprite.cpp
+    Text.cpp
+    TicTacToe.cpp
+    GameResources.cpp
+)
+list(TRANSFORM SOURCE_FILES PREPEND "src/")
+
 add_executable(TicTacToe.exe ${SOURCE_FILES})
 
 set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake_modules")

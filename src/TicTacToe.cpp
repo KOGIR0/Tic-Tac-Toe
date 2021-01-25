@@ -1,17 +1,10 @@
 #include "TicTacToe.h"
+#include "GameResources.h"
 #include <iostream>
 
 TicTacToe::TicTacToe()
 {
-    this->game_ui = new GameUI(SCREEN_HEIGHT, SCREEN_WIDTH);
-    this->status = gameStatus::menu;
-    this->fillCellsNum = 0;
-    this->playerNum = 0;
-    this->victory = false;
-    playerSign = { {0, "X"}, {1, "O"} };
-    playerName = { {0, "Cross"}, {1, "Nought"} };
-    createSymbolMap();
-
+    game_ui = new GameUI(SCREEN_WIDTH, SCREEN_HEIGHT);
     window = new sf::RenderWindow(sf::VideoMode(SCREEN_WIDTH, SCREEN_HEIGHT), "TIC TAK TOE");
     sf::Image icon;
     icon.loadFromFile("X.png");
@@ -27,10 +20,11 @@ TicTacToe::~TicTacToe()
 void TicTacToe::updateWindow()
 {
     this->window->clear();
-    if(this->status == gameStatus::offlineGame)
+    gameStatus s = this->resources.getStatus();
+    if(s == gameStatus::offlineGame)
     {
         this->game_ui->drawGame(*this->window);
-    } else if (this->status == gameStatus::menu)
+    } else if (s == gameStatus::menu)
     {
         this->game_ui->drawMenu(*this->window);
     }
@@ -39,59 +33,57 @@ void TicTacToe::updateWindow()
 
 void TicTacToe::processLeftBtnClick(const sf::Vector2i& mousePos)
 {
-    if(this->status == gameStatus::offlineGame)
+    gameStatus s = this->resources.getStatus();
+    if(s == gameStatus::offlineGame)
     {
         sf::Vector2f cellPosition = this->game_ui->getCellPosition(mousePos);
         if (this->game_ui->restartClick(mousePos))
         {
-            this->fillCellsNum = 0;
-            this->playerNum = 0;
-            this->victory = false;
-            this->createSymbolMap();
+            this->resources.reset();
             this->game_ui->reset();
         }
-        if (cellPosition.x != -1 && !this->getVictory())
+        if (cellPosition.x != -1 && !this->resources.getVictory())
         {
             if (!this->game_ui->fieldWasClicked(cellPosition))
             {
-                this->fillCellsNum++;
-                this->game_ui->setMsg(playerName[getNextPlayerNum()] + " turn");
-                this->setSymbol(cellPosition, playerSign[getPlayerNum()]);
-                this->game_ui->markCellWithSprite(cellPosition, playerSign[getPlayerNum()] + ".png");
-                this->nextPlayer();
+                this->resources.increaseFilledCellsNum();
+                this->game_ui->setMsg(this->resources.getNextPlayerStr() + " turn");
+                this->setSymbol(cellPosition, this->resources.getCurPlayerSybmol());
+                this->game_ui->markCellWithSprite(cellPosition, this->resources.getCurPlayerSybmol() + ".png");
+                this->resources.nextPlayer();
             }
-            if (checkWinCondition(cellPosition, this->game_ui->getClickedCellsMap()))
+            if (checkWinCondition(cellPosition))
             {
-                setVictory(true);
-                this->game_ui->setMsg(playerName[this->getNextPlayerNum()] + " Won!");
+                this->resources.setVictory(true);
+                this->game_ui->setMsg(this->resources.getNextPlayerStr() + " Won!");
             }
-            if (checkDraw() && !this->getVictory())
+            if (checkDraw() && !this->resources.getVictory())
             {
-                setVictory(true);
+                this->resources.setVictory(true);
                 this->game_ui->setMsg("Draw");
             }
         }
-    } else if (this->status == gameStatus::menu)
+    } else if (s == gameStatus::menu)
     {
         int clickResult = this->game_ui->processMenuClick(mousePos);
         if(clickResult == 1)
         {
-            this->status = gameStatus::offlineGame;
+            this->resources.setStatus(gameStatus::offlineGame);
         } else if (clickResult == 2)
         {
-            this->status = gameStatus::onlineGame;
+            this->resources.setStatus(gameStatus::onlineGame);
         }
     }
 }
 
 bool TicTacToe::checkDraw()
 {
-    return fillCellsNum == (map.size() * map.size());
+    return this->game_ui->getFilledCellsNum() == this->game_ui->getFieldSize();
 }
 
 void TicTacToe::resizeGameElements(const sf::Event::SizeEvent& es)
 {
-    window->setView(sf::View(sf::FloatRect(0, 0, es.width, es.height)));
+    this->window->setView(sf::View(sf::FloatRect(0, 0, es.width, es.height)));
     sf::Vector2u newSize = window->getSize();
     this->game_ui->resize(newSize);
 }
@@ -104,6 +96,7 @@ void TicTacToe::process()
         switch (event.type)
         {
         case sf::Event::Closed:
+            std::cout << "Closing window" << std::endl;
             window->close();
             break;
         case sf::Event::MouseButtonPressed:
@@ -128,15 +121,9 @@ bool TicTacToe::isRunning()
     return this->window->isOpen();
 }
 
-void TicTacToe::createSymbolMap()
-{
-    std::vector<symbol> line(CELL_NUMBER);
-    std::vector<std::vector<symbol>> newSymbolMap(CELL_NUMBER, line);
-    map = newSymbolMap;
-}
-
 void TicTacToe::setSymbol(sf::Vector2f position, std::string s)
 {
+    std::vector<std::vector<symbol>> map = this->resources.getSymbolMap();
     if (s == "X")
     {
         map[position.x][position.y] = symbol::cross;
@@ -145,15 +132,19 @@ void TicTacToe::setSymbol(sf::Vector2f position, std::string s)
     {
         map[position.x][position.y] = symbol::nought;
     }
+    this->resources.setSymbolMap(map);
 }
 
-bool TicTacToe::checkWinCondition(const sf::Vector2f& lCkC, const std::vector<std::vector<bool>>& boolMap)
+bool TicTacToe::checkWinCondition(const sf::Vector2f& lCkC)
 {
+    std::vector<std::vector<symbol>> map = this->resources.getSymbolMap();
+    std::vector<std::vector<bool>> boolMap = this->game_ui->getClickedCellsMap();
     symbol lastSymbol = map[lCkC.x][lCkC.y];
     return checkHorizontalLines(lCkC, boolMap, lastSymbol) || checkVerticalLine(lCkC, boolMap, lastSymbol)
         || checkDiagonals(lCkC, boolMap, lastSymbol);
 }
 
+// helper function
 bool TicTacToe::checkWinAndIncrement(int& num, const bool& condition)
 {
     if (condition)
@@ -170,8 +161,9 @@ bool TicTacToe::checkWinAndIncrement(int& num, const bool& condition)
     return false;
 }
 
-bool TicTacToe::checkDiagonals(const sf::Vector2f& lCkC, const std::vector<std::vector<bool>>& boolMap, const symbol& symbol)
+bool TicTacToe::checkDiagonals(const sf::Vector2f& lCkC, const std::vector<std::vector<bool>>& boolMap, const symbol& s)
 {
+    std::vector<std::vector<symbol>> map = this->resources.getSymbolMap();
     // from left upper corner to right bottom corner
     int count = 0;
     for (int i = 0; i < map.size(); i++)
@@ -179,13 +171,13 @@ bool TicTacToe::checkDiagonals(const sf::Vector2f& lCkC, const std::vector<std::
         count = 0;
         for (int j = i, k = 0; j < map[i].size() && k < map[i].size(); j++, k++)
         {
-            if (checkWinAndIncrement(count, boolMap[j][k] && map[j][k] == symbol))
+            if (checkWinAndIncrement(count, boolMap[j][k] && map[j][k] == s))
                 return true;
         }
         count = 0;
         for (int j = 0, k = i; j < map[i].size() && k < map[i].size(); j++, k++)
         {
-            if (checkWinAndIncrement(count, boolMap[j][k] && map[j][k] == symbol))
+            if (checkWinAndIncrement(count, boolMap[j][k] && map[j][k] == s))
                 return true;
         }
     }
@@ -195,36 +187,38 @@ bool TicTacToe::checkDiagonals(const sf::Vector2f& lCkC, const std::vector<std::
         count = 0;
         for (int j = i, k = map.size() - 1; j < map.size() && k >= 0; j++, k--)
         {
-            if (checkWinAndIncrement(count, boolMap[j][k] && map[j][k] == symbol))
+            if (checkWinAndIncrement(count, boolMap[j][k] && map[j][k] == s))
                 return true;
         }
         count = 0;
         for (int j = 0, k = map.size() - 1 - i; j >= 0 && k < map.size(); j++, k--)
         {
-            if (checkWinAndIncrement(count, boolMap[j][k] && map[j][k] == symbol))
+            if (checkWinAndIncrement(count, boolMap[j][k] && map[j][k] == s))
                 return true;
         }
     }
     return false;
 }
 
-bool TicTacToe::checkHorizontalLines(const sf::Vector2f& lCkC, const std::vector<std::vector<bool>>& boolMap, const symbol& symbol)
+bool TicTacToe::checkHorizontalLines(const sf::Vector2f& lCkC, const std::vector<std::vector<bool>>& boolMap, const symbol& s)
 {
+    std::vector<std::vector<symbol>> map = this->resources.getSymbolMap();
     int count = 0;
     for (int j = 0; j < map[lCkC.x].size(); j++)
     {
-        if (checkWinAndIncrement(count, boolMap[lCkC.x][j] && map[lCkC.x][j] == symbol))
+        if (checkWinAndIncrement(count, boolMap[lCkC.x][j] && map[lCkC.x][j] == s))
         return true;
     }
     return false;
 }
 
-bool TicTacToe::checkVerticalLine(const sf::Vector2f& lCkC, const std::vector<std::vector<bool>>& boolMap, const symbol& symbol)
+bool TicTacToe::checkVerticalLine(const sf::Vector2f& lCkC, const std::vector<std::vector<bool>>& boolMap, const symbol& s)
 {
+    std::vector<std::vector<symbol>> map = this->resources.getSymbolMap();
     int count = 0;
     for (int j = 0; j < map[lCkC.y].size(); j++)
     {
-        if (checkWinAndIncrement(count, boolMap[j][lCkC.y] && map[j][lCkC.y] == symbol))
+        if (checkWinAndIncrement(count, boolMap[j][lCkC.y] && map[j][lCkC.y] == s))
             return true;
     }
     return false;

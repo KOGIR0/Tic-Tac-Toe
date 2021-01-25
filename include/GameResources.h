@@ -33,12 +33,19 @@ class GameResources
 {
 public:
     GameResources();
-    ~GameResources();
     bool getVictory() { return victory; }
-    int getPlayerNum() { return this->playerNum; }
     int getNextPlayerNum() { return (this->playerNum + 1) % MAX_PLAYER_NUM; }
     void setVictory(const bool& v) { this->victory = v; }
     void nextPlayer() { this->playerNum = (this->playerNum + 1) % MAX_PLAYER_NUM; }
+    void reset();
+    void setStatus(const gameStatus& s);
+    void setSymbolMap(const std::vector<std::vector<symbol>>& m);
+    void increaseFilledCellsNum() { this->fillCellsNum++; }
+    std::string getCurPlayerStr() { return this->playerName[this->playerNum]; }
+    std::string getNextPlayerStr() { return this->playerName[getNextPlayerNum()]; }
+    std::string getCurPlayerSybmol() { return this->playerSign[this->playerNum]; }
+    gameStatus getStatus() { return this->status; }
+    std::vector<std::vector<symbol>> getSymbolMap() { return this->map; }
 
 private:
     int playerNum;

@@ -24,6 +24,8 @@ public:
     bool cellWasClicked(sf::Vector2f position);
     std::vector<std::vector<bool>> getBoolMap();
     void clear();
+    int getFilledCellsNum() { return this->filledCellsNum; }
+    int getSize() { return this->fieldSize; }
 
 private:
     std::vector<std::vector<Button>> fillEvenCellNum();
@@ -34,6 +36,8 @@ private:
 
     std::vector<std::vector<Button>> field;
     int cellNum;
+    int filledCellsNum;
+    int fieldSize;
     sf::Vector2f cellSize;
     std::vector<std::vector<bool>> map;                                           // matrix that shows what cells were pressed
     std::vector<std::vector<Sprite>> spriteMap;

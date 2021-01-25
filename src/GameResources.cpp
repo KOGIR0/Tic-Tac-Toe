@@ -2,22 +2,33 @@
 
 GameResources::GameResources()
 {
-    this->menu = new MainMenu({SCREEN_WIDTH, SCREEN_HEIGHT});
     this->status = gameStatus::menu;
     this->fillCellsNum = 0;
     this->playerNum = 0;
     this->victory = false;
     playerSign = { {0, "X"}, {1, "O"} };
     playerName = { {0, "Cross"}, {1, "Nought"} };
+    std::vector<symbol> line(CELL_NUMBER);
+    std::vector<std::vector<symbol>> newSymbolMap(CELL_NUMBER, line);
+    this->map = newSymbolMap;
+}
 
-    
-    ticTacToeField = new Field(FIELD_PERCENTAGE_X * SCREEN_WIDTH, FIELD_PERCENTAGE_Y * SCREEN_HEIGHT, CELL_NUMBER);
+void GameResources::setSymbolMap(const std::vector<std::vector<symbol>>& m)
+{
+    this->map = m;
+}
 
-    text = new Text("times-new-roman.ttf", "Cross Turn");
-    text->setPosition({this->text->getSize().x / 2.0f ,
-        FIELD_PERCENTAGE_Y * SCREEN_HEIGHT + this->text->getSize().y / 2.0f + 5});
+void GameResources::setStatus(const gameStatus& s)
+{
+    this->status = s;
+}
 
-    restartBtn = new Button("restartBtn.png", 100.f, SCREEN_HEIGHT * (1.f - FIELD_PERCENTAGE_Y),
-        { SCREEN_WIDTH - 100.f, FIELD_PERCENTAGE_Y * SCREEN_HEIGHT });
-    restartBtn->setFillColor(sf::Color::White);
+void GameResources::reset()
+{
+    this->fillCellsNum = 0;
+    this->playerNum = 0;
+    this->victory = false;
+    std::vector<symbol> line(CELL_NUMBER);
+    std::vector<std::vector<symbol>> newSymbolMap(CELL_NUMBER, line);
+    this->map = newSymbolMap;
 }
