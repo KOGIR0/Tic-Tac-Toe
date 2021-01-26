@@ -4,7 +4,6 @@
 #include "Field.h"
 #include "SFML/Graphics.hpp"
 #include "Text.h"
-#include "MainMenu.h"
 #include <vector>
 #include "GameUI.h"
 #include "GameResources.h"

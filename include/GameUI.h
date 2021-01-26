@@ -7,7 +7,7 @@
 
 #include "Field.h"
 #include "Text.h"
-#include "MainMenu.h"
+#include "Menu.h"
 
 #define FIELD_PERCENTAGE_X  1.f
 #define FIELD_PERCENTAGE_Y  0.9f
@@ -37,7 +37,7 @@ private:
     Field* ticTacToeField;
     Button* restartBtn;
     Text* text;
-    MainMenu* menu;
+    Menu* mainMenu;
 };
 
 #endif

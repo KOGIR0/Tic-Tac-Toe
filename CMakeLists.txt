@@ -6,7 +6,7 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 set(SOURCE_FILES
     main.cpp
     GameUI.cpp
-    MainMenu.cpp
+    Menu.cpp
     Button.cpp
     Field.cpp
     Sprite.cpp

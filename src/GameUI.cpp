@@ -3,7 +3,8 @@
 
 GameUI::GameUI(const float& screenWidth, const float& screenHeight)
 {
-    this->menu = new MainMenu({screenWidth, screenHeight});
+    std::vector<std::string> btnsTxt = {"offline game", "online game"};
+    this->mainMenu = new Menu({screenWidth, screenHeight}, btnsTxt);
     
     ticTacToeField = new Field(FIELD_PERCENTAGE_X * screenWidth,
         FIELD_PERCENTAGE_Y * screenHeight, CELL_NUMBER);
@@ -19,7 +20,7 @@ GameUI::GameUI(const float& screenWidth, const float& screenHeight)
 
 GameUI::~GameUI()
 {
-    delete this->menu;
+    delete this->mainMenu;
     delete this->restartBtn;
     delete this->text;
     delete this->ticTacToeField;
@@ -34,7 +35,7 @@ void GameUI::drawGame(sf::RenderWindow& window)
 
 void GameUI::drawMenu(sf::RenderWindow& window)
 {
-    window.draw(*this->menu);
+    window.draw(*this->mainMenu);
 }
 
 sf::Vector2f GameUI::getCellPosition(const sf::Vector2i& pos)
@@ -51,7 +52,7 @@ void GameUI::reset()
 
 int GameUI::processMenuClick(const sf::Vector2i& clickPos)
 {
-    return this->menu->processClick(clickPos);
+    return this->mainMenu->processClick(clickPos);
 }
 
 std::vector<std::vector<bool>> GameUI::getClickedCellsMap()
@@ -90,5 +91,5 @@ void GameUI::resize(const sf::Vector2u& newSize)
     restartBtn->setPosition({ newSize.x - 100.f, FIELD_PERCENTAGE_Y * newSize.y });
     restartBtn->setSize({ 100.f, newSize.y * (1.f - FIELD_PERCENTAGE_Y) });
 
-    this->menu->resizeMenu({ (float)newSize.x, (float)newSize.y });
+    this->mainMenu->resizeMenu({ (float)newSize.x, (float)newSize.y });
 }

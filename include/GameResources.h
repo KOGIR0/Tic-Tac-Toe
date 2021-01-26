@@ -4,8 +4,6 @@
 #include <map>
 #include <vector>
 #include "Text.h"
-#include "Field.h"
-#include "MainMenu.h"
 #include "Button.h"
 
 #define SCREEN_WIDTH        500.f

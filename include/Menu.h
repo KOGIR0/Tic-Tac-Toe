@@ -5,21 +5,19 @@
 #include "Button.h"
 #include "Text.h"
 
-class MainMenu : public sf::Drawable
+class Menu : public sf::Drawable
 {
 public:
-    MainMenu(const sf::Vector2f& screenSize);
-    ~MainMenu();
+    Menu(const sf::Vector2f& screenSize, const std::vector<std::string> btnTxt);
+    ~Menu();
     void resizeMenu(const sf::Vector2f& screenSize);
     int processClick(const sf::Vector2i& position);
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 
 private:
     sf::Vector2f screenSize;
-    Button* offlineBtn;
-    Button* onlineBtn;
-    Text* offlineTxt;
-    Text* onlineTxt;
+    std::vector<Button*> btns;
+    std::vector<Text*> txts;
 };
 
 #endif
