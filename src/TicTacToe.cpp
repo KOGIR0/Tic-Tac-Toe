@@ -21,77 +21,164 @@ void TicTacToe::updateWindow()
 {
     this->window->clear();
     gameStatus s = this->resources.getStatus();
-    if(s == gameStatus::offlineGame || s == gameStatus::onlineGame)
+    if(s == gameStatus::offlineGame ||
+        s == gameStatus::onlineClient ||
+        s == gameStatus::onlineServer)
     {
         this->game_ui->drawGame(*this->window);
     } else if (s == gameStatus::menu)
     {
-        this->game_ui->drawMenu(*this->window);
+        this->game_ui->drawMainMenu(*this->window);
+    } else if (s == gameStatus::onlineMenu)
+    {
+        this->game_ui->drawOnlineMenu(*this->window);
     }
     this->window->display();
+}
+
+void TicTacToe::processLeftBtnOfflineGame(const sf::Vector2i& mousePos)
+{
+    sf::Vector2f cellPosition = this->game_ui->getCellPosition(mousePos);
+    if (this->game_ui->restartClick(mousePos))
+    {
+        this->resources.reset();
+        this->game_ui->reset();
+    }
+    if (cellPosition.x != -1 && !this->resources.getVictory())
+    {
+        if (!this->game_ui->fieldWasClicked(cellPosition))
+        {
+            this->resources.increaseFilledCellsNum();
+            this->game_ui->setMsg(this->resources.getNextPlayerStr() + " turn");
+            this->setSymbol(cellPosition, this->resources.getCurPlayerSybmol());
+            this->game_ui->markCellWithSprite(cellPosition, this->resources.getCurPlayerSybmol() + ".png");
+            this->resources.nextPlayer();
+        }
+        if (checkWinCondition(cellPosition))
+        {
+            this->resources.setVictory(true);
+            this->game_ui->setMsg(this->resources.getNextPlayerStr() + " Won!");
+        }
+        if (checkDraw() && !this->resources.getVictory())
+        {
+            this->resources.setVictory(true);
+            this->game_ui->setMsg("Draw");
+        }
+    }
+}
+
+void TicTacToe::processLeftBtnClient(const sf::Vector2i& mousePos)
+{
+    sf::Vector2f cellPosition = this->game_ui->getCellPosition(mousePos);
+    std::stringstream s;
+    if(resources.getCurPlayerStr() == "Nought")
+    {
+        Connection clientSend(3435);
+        std::cout << "Sending message" << std::endl;
+        s << cellPosition.x << " " << cellPosition.y;
+        clientSend.send(s);
+        std::cout << "Message send: " << cellPosition.x << " " << cellPosition.y << std::endl;
+    } else if (resources.getCurPlayerStr() == "Cross")
+    {
+        Connection clientRecive(3435);
+        std::cout << "Reciving message" << std::endl;
+        int bytesRead = clientRecive.recive(s);
+        std::cout << "Bytes read " << bytesRead << std::endl;
+        float x, y;
+        s >> x >> y;
+        cellPosition = {x, y};
+        std::cout << "message recived: " << cellPosition.x << " " << cellPosition.y << std::endl;
+    }
+    if (this->game_ui->restartClick(mousePos))
+    {
+        this->resources.reset();
+        this->game_ui->reset();
+    }
+    if (cellPosition.x != -1 && !this->resources.getVictory())
+    {
+        if (!this->game_ui->fieldWasClicked(cellPosition))
+        {
+            this->resources.increaseFilledCellsNum();
+            this->game_ui->setMsg(this->resources.getNextPlayerStr() + " turn");
+            this->setSymbol(cellPosition, this->resources.getCurPlayerSybmol());
+            this->game_ui->markCellWithSprite(cellPosition, this->resources.getCurPlayerSybmol() + ".png");
+            this->resources.nextPlayer();
+        }
+        if (checkWinCondition(cellPosition))
+        {
+            this->resources.setVictory(true);
+            this->game_ui->setMsg(this->resources.getNextPlayerStr() + " Won!");
+        }
+        if (checkDraw() && !this->resources.getVictory())
+        {
+            this->resources.setVictory(true);
+            this->game_ui->setMsg("Draw");
+        }
+    }
+}
+
+void TicTacToe::processLeftBtnServer(const sf::Vector2i& mousePos)
+{
+    sf::Vector2f cellPosition = this->game_ui->getCellPosition(mousePos);
+    std::stringstream s;
+    if(resources.getCurPlayerStr() == "Cross")
+    {
+        Connection serverSend(3435);
+        std::cout << "Sending message" << std::endl;
+        s << cellPosition.x << " " << cellPosition.y;
+        serverSend.send(s);
+        std::cout << "Message send: " << cellPosition.x << " " << cellPosition.y << std::endl;
+    } else if (resources.getCurPlayerStr() == "Nought")
+    {
+        Connection serverRecive(3435);
+        std::cout << "Reciving message" << std::endl;
+        int bytesRead = serverRecive.recive(s);
+        std::cout << "Bytes read " << bytesRead << std::endl;
+        float x, y;
+        s >> x >> y;
+        cellPosition = {x, y};
+        std::cout << "message recived: " << cellPosition.x << " " << cellPosition.y << std::endl;
+    }
+    if (this->game_ui->restartClick(mousePos))
+    {
+        this->resources.reset();
+        this->game_ui->reset();
+    }
+    if (cellPosition.x != -1 && !this->resources.getVictory())
+    {
+        if (!this->game_ui->fieldWasClicked(cellPosition))
+        {
+            this->resources.increaseFilledCellsNum();
+            this->game_ui->setMsg(this->resources.getNextPlayerStr() + " turn");
+            this->setSymbol(cellPosition, this->resources.getCurPlayerSybmol());
+            this->game_ui->markCellWithSprite(cellPosition, this->resources.getCurPlayerSybmol() + ".png");
+            this->resources.nextPlayer();
+        }
+        if (checkWinCondition(cellPosition))
+        {
+            this->resources.setVictory(true);
+            this->game_ui->setMsg(this->resources.getNextPlayerStr() + " Won!");
+        }
+        if (checkDraw() && !this->resources.getVictory())
+        {
+            this->resources.setVictory(true);
+            this->game_ui->setMsg("Draw");
+        }
+    }
 }
 
 void TicTacToe::processLeftBtnClick(const sf::Vector2i& mousePos)
 {
     gameStatus s = this->resources.getStatus();
-    if(s == gameStatus::onlineGame)
+    if(s == gameStatus::onlineClient)
     {
-        sf::Vector2f cellPosition = this->game_ui->getCellPosition(mousePos);
-        if (this->game_ui->restartClick(mousePos))
-        {
-            this->resources.reset();
-            this->game_ui->reset();
-        }
-        if (cellPosition.x != -1 && !this->resources.getVictory())
-        {
-            if (!this->game_ui->fieldWasClicked(cellPosition))
-            {
-                this->resources.increaseFilledCellsNum();
-                this->game_ui->setMsg(this->resources.getNextPlayerStr() + " turn");
-                this->setSymbol(cellPosition, this->resources.getCurPlayerSybmol());
-                this->game_ui->markCellWithSprite(cellPosition, this->resources.getCurPlayerSybmol() + ".png");
-                this->resources.nextPlayer();
-            }
-            if (checkWinCondition(cellPosition))
-            {
-                this->resources.setVictory(true);
-                this->game_ui->setMsg(this->resources.getNextPlayerStr() + " Won!");
-            }
-            if (checkDraw() && !this->resources.getVictory())
-            {
-                this->resources.setVictory(true);
-                this->game_ui->setMsg("Draw");
-            }
-        }
+        this->processLeftBtnClient(mousePos);
+    } else if (s == gameStatus::onlineServer)
+    {
+        this->processLeftBtnServer(mousePos);
     } else if (s == gameStatus::offlineGame)
     {
-        sf::Vector2f cellPosition = this->game_ui->getCellPosition(mousePos);
-        if (this->game_ui->restartClick(mousePos))
-        {
-            this->resources.reset();
-            this->game_ui->reset();
-        }
-        if (cellPosition.x != -1 && !this->resources.getVictory())
-        {
-            if (!this->game_ui->fieldWasClicked(cellPosition))
-            {
-                this->resources.increaseFilledCellsNum();
-                this->game_ui->setMsg(this->resources.getNextPlayerStr() + " turn");
-                this->setSymbol(cellPosition, this->resources.getCurPlayerSybmol());
-                this->game_ui->markCellWithSprite(cellPosition, this->resources.getCurPlayerSybmol() + ".png");
-                this->resources.nextPlayer();
-            }
-            if (checkWinCondition(cellPosition))
-            {
-                this->resources.setVictory(true);
-                this->game_ui->setMsg(this->resources.getNextPlayerStr() + " Won!");
-            }
-            if (checkDraw() && !this->resources.getVictory())
-            {
-                this->resources.setVictory(true);
-                this->game_ui->setMsg("Draw");
-            }
-        }
+        this->processLeftBtnOfflineGame(mousePos);
     } else if (s == gameStatus::menu)
     {
         int clickResult = this->game_ui->processMenuClick(mousePos);
@@ -100,7 +187,17 @@ void TicTacToe::processLeftBtnClick(const sf::Vector2i& mousePos)
             this->resources.setStatus(gameStatus::offlineGame);
         } else if (clickResult == 2)
         {
-            this->resources.setStatus(gameStatus::onlineGame);
+            this->resources.setStatus(gameStatus::onlineMenu);
+        }
+    } else if (s == gameStatus::onlineMenu)
+    {
+        int clickRes = this->game_ui->processOnlineMenuClick(mousePos);
+        if(clickRes == 1)
+        {
+            this->resources.setStatus(gameStatus::onlineServer);
+        } else if (clickRes == 2)
+        {
+            this->resources.setStatus(gameStatus::onlineClient);
         }
     }
 }

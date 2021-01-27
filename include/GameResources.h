@@ -23,7 +23,9 @@ enum class symbol
 enum class gameStatus
 {
     menu,
-    onlineGame,
+    onlineMenu,
+    onlineServer,
+    onlineClient,
     offlineGame
 };
 

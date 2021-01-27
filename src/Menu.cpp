@@ -15,7 +15,7 @@ Menu::Menu(const sf::Vector2f& screenSize, const std::vector<std::string> btnTxt
         // put text in center of button
         sf::Vector2f btnSize = this->btns[i]->getSize();
         sf::Vector2f btnPos = this->btns[i]->getPosition();
-        sf::Vector2f newTxtPos = btnPos + sf::Vector2f({btnSize.x, btnSize.y});
+        sf::Vector2f newTxtPos = btnPos + sf::Vector2f({btnSize.x / 2.0f, btnSize.y / 2.0f});
         txts[i]->setPosition(newTxtPos);
     }
 }
@@ -51,7 +51,7 @@ void Menu::resizeMenu(const sf::Vector2f& screenSize)
 // from top to bottom
 // returns 1 if first button was clicked
 // returns 2 if second
-// returns 0 if none was clicked
+// returns -1 if none was clicked
 int Menu::processClick(const sf::Vector2i& position)
 {
     for(int i = 0; i < this->btns.size(); i++)
@@ -59,7 +59,7 @@ int Menu::processClick(const sf::Vector2i& position)
         if(this->btns[i]->clicked(position))
             return i + 1;
     }
-    return 0;
+    return -1;
 }
 
 void Menu::draw(sf::RenderTarget& target, sf::RenderStates states) const 

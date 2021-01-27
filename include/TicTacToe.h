@@ -7,6 +7,7 @@
 #include <vector>
 #include "GameUI.h"
 #include "GameResources.h"
+#include "Connection.h"
 
 #define SCREEN_WIDTH        500.f
 #define SCREEN_HEIGHT       600.f
@@ -33,6 +34,10 @@ private:
     bool checkDraw();
     void resizeGameElements(const sf::Event::SizeEvent &newSize);
     void processLeftBtnClick(const sf::Vector2i& mousePos);
+    void processLeftBtnOfflineGame(const sf::Vector2i& mousePos);
+    void processLeftBtnClient(const sf::Vector2i& mousePos);
+    // server is also a player
+    void processLeftBtnServer(const sf::Vector2i& mousePos);
     bool checkWinAndIncrement(int& num, const bool& condition);
     bool checkDiagonals(const sf::Vector2f& lCkC, const std::vector<std::vector<bool>>& boolMap, const symbol& symbol);
     bool checkHorizontalLines(const sf::Vector2f& lCkC, const std::vector<std::vector<bool>>& boolMap, const symbol& symbol);

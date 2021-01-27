@@ -17,7 +17,8 @@ class GameUI {
 public:
     GameUI(const float& screenWidth, const float& screenHeight);
     ~GameUI();
-    void drawMenu(sf::RenderWindow& window);
+    void drawMainMenu(sf::RenderWindow& window);
+    void drawOnlineMenu(sf::RenderWindow& window);
     void drawGame(sf::RenderWindow& window);
     void resize(const sf::Vector2u& newSize);
     void reset();
@@ -25,6 +26,7 @@ public:
     // marks cell at given position with sprite with size of a cell
     void markCellWithSprite(const sf::Vector2f& cellPos, const std::string& texturePath);
     int processMenuClick(const sf::Vector2i& clickPos);
+    int processOnlineMenuClick(const sf::Vector2i& clickPos);
     bool restartClick(const sf::Vector2i& clickPos);
     // returns whether cell was clicked or no
     bool fieldWasClicked(const sf::Vector2f& cellPos);
@@ -38,6 +40,7 @@ private:
     Button* restartBtn;
     Text* text;
     Menu* mainMenu;
+    Menu* onlineMenu;
 };
 
 #endif

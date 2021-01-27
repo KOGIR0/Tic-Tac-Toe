@@ -13,6 +13,7 @@ set(SOURCE_FILES
     Text.cpp
     TicTacToe.cpp
     GameResources.cpp
+    Connection.cpp
 )
 list(TRANSFORM SOURCE_FILES PREPEND "src/")
 

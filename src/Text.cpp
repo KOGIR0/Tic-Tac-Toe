@@ -18,6 +18,9 @@ Text::Text(const std::string& fontPath, const std::string& string,
 
 sf::Vector2f Text::getSize()
 {
+    sf::FloatRect textRect = text.getLocalBounds();
+    text.setOrigin(textRect.left + textRect.width/2.0f,
+               textRect.top  + textRect.height/2.0f);
     return {this->text.getLocalBounds().width, this->text.getLocalBounds().height};
 }
 

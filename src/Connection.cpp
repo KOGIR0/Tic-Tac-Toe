@@ -16,6 +16,16 @@ Connection::Connection(int port)
     }
 }
 
+Connection::~Connection()
+{
+    close(this->sock);
+}
+
+void Connection::closeConnection()
+{
+    close(this->sock);
+}
+
 int Connection::recive(std::stringstream& s)
 {
     char buf[1024];
