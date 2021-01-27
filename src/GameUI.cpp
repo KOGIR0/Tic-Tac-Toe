@@ -95,7 +95,6 @@ void GameUI::setMsg(const std::string& msg)
 
 void GameUI::resize(const sf::Vector2u& newSize)
 {
-    std::cout << "Resize Start" << std::endl;
     this->ticTacToeField->setFieldSize(FIELD_PERCENTAGE_X * newSize.x, FIELD_PERCENTAGE_Y * newSize.y);
 
     text->setPosition({ this->text->getSize().x / 2.0f,

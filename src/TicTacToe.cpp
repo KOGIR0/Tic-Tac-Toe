@@ -73,16 +73,14 @@ void TicTacToe::processLeftBtnClient(const sf::Vector2i& mousePos)
     std::stringstream s;
     if(resources.getCurPlayerStr() == "Nought")
     {
-        Connection clientSend(3435);
         std::cout << "Sending message" << std::endl;
         s << cellPosition.x << " " << cellPosition.y;
-        clientSend.send(s);
+        this->c->Send(s);
         std::cout << "Message send: " << cellPosition.x << " " << cellPosition.y << std::endl;
     } else if (resources.getCurPlayerStr() == "Cross")
     {
-        Connection clientRecive(3435);
         std::cout << "Reciving message" << std::endl;
-        int bytesRead = clientRecive.recive(s);
+        int bytesRead = this->c->Read(s);
         std::cout << "Bytes read " << bytesRead << std::endl;
         float x, y;
         s >> x >> y;
@@ -120,22 +118,20 @@ void TicTacToe::processLeftBtnClient(const sf::Vector2i& mousePos)
 void TicTacToe::processLeftBtnServer(const sf::Vector2i& mousePos)
 {
     sf::Vector2f cellPosition = this->game_ui->getCellPosition(mousePos);
-    std::stringstream s;
+    std::stringstream ss;
     if(resources.getCurPlayerStr() == "Cross")
     {
-        Connection serverSend(3435);
         std::cout << "Sending message" << std::endl;
-        s << cellPosition.x << " " << cellPosition.y;
-        serverSend.send(s);
+        ss << cellPosition.x << " " << cellPosition.y;
+        this->s->Send(ss);
         std::cout << "Message send: " << cellPosition.x << " " << cellPosition.y << std::endl;
     } else if (resources.getCurPlayerStr() == "Nought")
     {
-        Connection serverRecive(3435);
         std::cout << "Reciving message" << std::endl;
-        int bytesRead = serverRecive.recive(s);
+        int bytesRead = this->s->Read(ss);
         std::cout << "Bytes read " << bytesRead << std::endl;
         float x, y;
-        s >> x >> y;
+        ss >> x >> y;
         cellPosition = {x, y};
         std::cout << "message recived: " << cellPosition.x << " " << cellPosition.y << std::endl;
     }
@@ -195,9 +191,11 @@ void TicTacToe::processLeftBtnClick(const sf::Vector2i& mousePos)
         if(clickRes == 1)
         {
             this->resources.setStatus(gameStatus::onlineServer);
+            this->s = new Server();
         } else if (clickRes == 2)
         {
             this->resources.setStatus(gameStatus::onlineClient);
+            this->c = new Client();
         }
     }
 }
@@ -222,7 +220,6 @@ void TicTacToe::process()
         switch (event.type)
         {
         case sf::Event::Closed:
-            std::cout << "Closing window" << std::endl;
             window->close();
             break;
         case sf::Event::MouseButtonPressed:

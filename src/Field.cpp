@@ -77,7 +77,6 @@ void Field::draw(sf::RenderTarget& target, sf::RenderStates states) const
 
 void Field::setFieldSize(const float& width, const float& height)
 {
-    std::cout << "Field resize start" << std::endl;
     std::vector<std::vector<Button>> newfield;
     this->cellSize = sf::Vector2f(float(width) / cellNum, float(height) / cellNum);
     if (cellNum % 2 == 0)
@@ -90,7 +89,6 @@ void Field::setFieldSize(const float& width, const float& height)
     }
     field = newfield;
     this->setCellSize(this->cellSize);
-    std::cout << "Field resize over" << std::endl;
 }
 
 std::vector<std::vector<Button>> Field::fillEvenCellNum()

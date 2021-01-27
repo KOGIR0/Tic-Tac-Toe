@@ -7,7 +7,8 @@
 #include <vector>
 #include "GameUI.h"
 #include "GameResources.h"
-#include "Connection.h"
+#include "Server.h"
+#include "Client.h"
 
 #define SCREEN_WIDTH        500.f
 #define SCREEN_HEIGHT       600.f
@@ -27,6 +28,8 @@ private:
     GameResources resources;
     sf::RenderWindow* window;
     GameUI* game_ui;
+    Server* s;
+    Client* c;
 
     void setSymbol(sf::Vector2f position, std::string s);
     bool checkWinCondition(const sf::Vector2f& lCkC);
