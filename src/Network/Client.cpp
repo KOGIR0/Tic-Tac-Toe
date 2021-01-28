@@ -34,3 +34,19 @@ int Client::Read(std::stringstream& s)
     s << buffer;
     return valread;
 }
+
+void Client::Send(const sf::Vector2f& v)
+{
+    std::stringstream s;
+    s << " " << v.x << " " << v.y;
+    this->Send(s);
+}
+
+sf::Vector2f Client::ReadV()
+{
+    std::stringstream s;
+    int valread = this->Read(s);
+    float x, y;
+    s >> x >> y;
+    return {x, y};
+}

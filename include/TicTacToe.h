@@ -9,6 +9,7 @@
 #include "GameResources.h"
 #include "Server.h"
 #include "Client.h"
+#include "Connection.h"
 
 #define SCREEN_WIDTH        500.f
 #define SCREEN_HEIGHT       600.f
@@ -28,19 +29,19 @@ private:
     GameResources resources;
     sf::RenderWindow* window;
     GameUI* game_ui;
-    Server* s;
-    Client* c;
+    Connection* connection;
 
     void setSymbol(sf::Vector2f position, std::string s);
     bool checkWinCondition(const sf::Vector2f& lCkC);
 
     bool checkDraw();
     void resizeGameElements(const sf::Event::SizeEvent &newSize);
-    void processLeftBtnClick(const sf::Vector2i& mousePos);
-    void processLeftBtnOfflineGame(const sf::Vector2i& mousePos);
-    void processLeftBtnClient(const sf::Vector2i& mousePos);
+    void processLeftBtnClick(sf::Vector2f& cellPos);
+    void processLeftBtnOfflineGame(sf::Vector2f& cellPos);
+    void processLeftBtnClient(sf::Vector2f& cellPos);
+    void processFieldClick(const sf::Vector2f& cellPos);
     // server is also a player
-    void processLeftBtnServer(const sf::Vector2i& mousePos);
+    void processLeftBtnServer(sf::Vector2f& cellPos);
     bool checkWinAndIncrement(int& num, const bool& condition);
     bool checkDiagonals(const sf::Vector2f& lCkC, const std::vector<std::vector<bool>>& boolMap, const symbol& symbol);
     bool checkHorizontalLines(const sf::Vector2f& lCkC, const std::vector<std::vector<bool>>& boolMap, const symbol& symbol);

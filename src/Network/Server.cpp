@@ -49,3 +49,19 @@ int Server::Read(std::stringstream& s)
     s << buffer;
     return valread;
 }
+
+void Server::Send(const sf::Vector2f& v)
+{
+    std::stringstream s;
+    s << " " << v.x << " " << v.y;
+    this->Send(s);
+}
+
+sf::Vector2f Server::ReadV()
+{
+    std::stringstream s;
+    int valread = this->Read(s);
+    float x, y;
+    s >> x >> y;
+    return {x, y};
+}
