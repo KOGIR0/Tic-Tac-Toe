@@ -7,9 +7,6 @@
 #include <vector>
 #include "GameUI.h"
 #include "GameResources.h"
-#include "Server.h"
-#include "Client.h"
-#include "Connection.h"
 
 #define SCREEN_WIDTH        500.f
 #define SCREEN_HEIGHT       600.f

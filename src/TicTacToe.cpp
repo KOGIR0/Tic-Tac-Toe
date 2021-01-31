@@ -1,6 +1,7 @@
 #include "TicTacToe.h"
 #include "GameResources.h"
 #include <iostream>
+#include <thread>
 
 TicTacToe::TicTacToe()
 {
@@ -9,6 +10,7 @@ TicTacToe::TicTacToe()
     sf::Image icon;
     icon.loadFromFile("X.png");
     window->setIcon(icon.getSize().x, icon.getSize().y, icon.getPixelsPtr());
+    std::cout << "Game created" << std::endl;
 }
 
 TicTacToe::~TicTacToe()
@@ -21,17 +23,13 @@ void TicTacToe::updateWindow()
 {
     this->window->clear();
     gameStatus s = this->resources.getStatus();
-    if(s == gameStatus::offlineGame ||
-        s == gameStatus::onlineClient ||
-        s == gameStatus::onlineServer)
+    if(s == gameStatus::pvp || s == gameStatus::pve)
     {
         this->game_ui->drawGame(*this->window);
     } else if (s == gameStatus::menu)
     {
+        std::cout << "Drawing menu" << std::endl;
         this->game_ui->drawMainMenu(*this->window);
-    } else if (s == gameStatus::onlineMenu)
-    {
-        this->game_ui->drawOnlineMenu(*this->window);
     }
     this->window->display();
 }
@@ -60,7 +58,7 @@ void TicTacToe::processLeftBtnClient(sf::Vector2f& cellPos)
         this->connection->Send(cellPos);
     } else if (resources.getCurPlayerStr() == "Cross")
     {
-        cellPos = this->connection->ReadV();
+        //cellPos = this->connection->ReadV();
     }
     this->processFieldClick(cellPos);
 }
@@ -72,7 +70,7 @@ void TicTacToe::processLeftBtnServer(sf::Vector2f& cellPos)
         this->connection->Send(cellPos);
     } else if (resources.getCurPlayerStr() == "Nought")
     {
-        cellPos = this->connection->ReadV();
+        //cellPos = this->connection->ReadV();
     }
     this->processFieldClick(cellPos);
 }
@@ -82,13 +80,7 @@ void TicTacToe::processLeftBtnClick(sf::Vector2f& cellPos)
     gameStatus s = this->resources.getStatus();
     switch(s)
     {
-    case (gameStatus::onlineClient):
-        this->processLeftBtnClient(cellPos);
-        break;
-    case (gameStatus::onlineServer):
-        this->processLeftBtnServer(cellPos);
-        break;
-    case (gameStatus::offlineGame):
+    case (gameStatus::pvp):
         this->processLeftBtnOfflineGame(cellPos);
         break;
     }
@@ -119,6 +111,7 @@ void TicTacToe::resizeGameElements(const sf::Event::SizeEvent& es)
 void TicTacToe::process()
 {
     sf::Event event;
+    sf::Vector2f cellPos;
     while (window->pollEvent(event))
     {
         switch (event.type)
@@ -136,33 +129,36 @@ void TicTacToe::process()
                     int clickResult = this->game_ui->processMenuClick(mousePos);
                     if(clickResult == 1)
                     {
-                        this->resources.setStatus(gameStatus::offlineGame);
+                        this->resources.setStatus(gameStatus::pvp);
                     } else if (clickResult == 2)
                     {
-                        this->resources.setStatus(gameStatus::onlineMenu);
+                        this->resources.setStatus(gameStatus::pve);
                     }
-                }
-                else if(s == gameStatus::onlineMenu)
-                {
-                    int clickRes = this->game_ui->processOnlineMenuClick(mousePos);
-                    if(clickRes == 1)
-                    {
-                        this->resources.setStatus(gameStatus::onlineServer);
-                        this->connection = new Server();
-                    } else if (clickRes == 2)
-                    {
-                        this->resources.setStatus(gameStatus::onlineClient);
-                        this->connection = new Client();
-                    }
-                } else if(s == gameStatus::onlineServer || 
-                    s == gameStatus::onlineClient || s == gameStatus::offlineGame){
-                    sf::Vector2f cellPos = this->game_ui->getCellPosition(mousePos);         
+                } else if(s == gameStatus::pvp){   
                     if (this->game_ui->restartClick(mousePos))
                     {
                         this->resources.reset();
                         this->game_ui->reset();
                     } else if(cellPos.x != -1 && !this->resources.getVictory())
                     {
+                        if(this->resources.getStatus() == gameStatus::pvp)
+                        {
+                            cellPos = this->game_ui->getCellPosition(mousePos);
+                        }
+                        this->processLeftBtnClick(cellPos);
+                    }
+                } else if (s == gameStatus::pve)
+                {
+                    if (this->game_ui->restartClick(mousePos))
+                    {
+                        this->resources.reset();
+                        this->game_ui->reset();
+                    } else if(cellPos.x != -1 && !this->resources.getVictory())
+                    {
+                        if(this->resources.getStatus() == gameStatus::pvp)
+                        {
+                            cellPos = this->game_ui->getCellPosition(mousePos);
+                        }
                         this->processLeftBtnClick(cellPos);
                     }
                 }
@@ -172,7 +168,9 @@ void TicTacToe::process()
             //restartBtn->setFillColor(sf::Color::White);
             break;
         case sf::Event::Resized:
+            std::cout << "Resizing elements" << std::endl;
             this->resizeGameElements(event.size);
+            std::cout << "Resizing elements end" << std::endl;
             break;
         }
     }

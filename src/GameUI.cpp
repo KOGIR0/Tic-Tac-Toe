@@ -3,11 +3,8 @@
 
 GameUI::GameUI(const float& screenWidth, const float& screenHeight)
 {
-    std::vector<std::string> btnsTxt = {"offline game", "online game"};
+    std::vector<std::string> btnsTxt = {"pvp game", "pve game"};
     this->mainMenu = new Menu({screenWidth, screenHeight}, btnsTxt);
-
-    btnsTxt = {"server", "client"};
-    this->onlineMenu = new Menu({screenWidth, screenHeight}, btnsTxt);
     
     ticTacToeField = new Field(FIELD_PERCENTAGE_X * screenWidth,
         FIELD_PERCENTAGE_Y * screenHeight, CELL_NUMBER);
@@ -39,11 +36,6 @@ void GameUI::drawGame(sf::RenderWindow& window)
 void GameUI::drawMainMenu(sf::RenderWindow& window)
 {
     window.draw(*this->mainMenu);
-}
-
-void GameUI::drawOnlineMenu(sf::RenderWindow& window)
-{
-    window.draw(*this->onlineMenu);
 }
 
 sf::Vector2f GameUI::getCellPosition(const sf::Vector2i& pos)
@@ -104,5 +96,4 @@ void GameUI::resize(const sf::Vector2u& newSize)
     restartBtn->setSize({ 100.f, newSize.y * (1.f - FIELD_PERCENTAGE_Y) });
 
     this->mainMenu->resizeMenu({ (float)newSize.x, (float)newSize.y });
-    this->onlineMenu->resizeMenu({ (float)newSize.x, (float)newSize.y });
 }

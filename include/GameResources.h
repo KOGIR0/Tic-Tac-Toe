@@ -23,10 +23,8 @@ enum class symbol
 enum class gameStatus
 {
     menu,
-    onlineMenu,
-    onlineServer,
-    onlineClient,
-    offlineGame
+    pvp,
+    pve
 };
 
 class GameResources

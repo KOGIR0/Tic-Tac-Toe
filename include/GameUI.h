@@ -18,7 +18,6 @@ public:
     GameUI(const float& screenWidth, const float& screenHeight);
     ~GameUI();
     void drawMainMenu(sf::RenderWindow& window);
-    void drawOnlineMenu(sf::RenderWindow& window);
     void drawGame(sf::RenderWindow& window);
     void resize(const sf::Vector2u& newSize);
     void reset();
