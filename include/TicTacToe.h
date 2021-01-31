@@ -26,7 +26,6 @@ private:
     GameResources resources;
     sf::RenderWindow* window;
     GameUI* game_ui;
-    Connection* connection;
 
     void setSymbol(sf::Vector2f position, std::string s);
     bool checkWinCondition(const sf::Vector2f& lCkC);
@@ -35,10 +34,8 @@ private:
     void resizeGameElements(const sf::Event::SizeEvent &newSize);
     void processLeftBtnClick(sf::Vector2f& cellPos);
     void processLeftBtnOfflineGame(sf::Vector2f& cellPos);
-    void processLeftBtnClient(sf::Vector2f& cellPos);
     void processFieldClick(const sf::Vector2f& cellPos);
     // server is also a player
-    void processLeftBtnServer(sf::Vector2f& cellPos);
     bool checkWinAndIncrement(int& num, const bool& condition);
     bool checkDiagonals(const sf::Vector2f& lCkC, const std::vector<std::vector<bool>>& boolMap, const symbol& symbol);
     bool checkHorizontalLines(const sf::Vector2f& lCkC, const std::vector<std::vector<bool>>& boolMap, const symbol& symbol);

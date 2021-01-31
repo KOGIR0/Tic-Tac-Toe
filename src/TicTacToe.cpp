@@ -51,30 +51,6 @@ void TicTacToe::processLeftBtnOfflineGame(sf::Vector2f& cellPos)
     this->processFieldClick(cellPos);
 }
 
-void TicTacToe::processLeftBtnClient(sf::Vector2f& cellPos)
-{
-    if(resources.getCurPlayerStr() == "Nought")
-    {
-        this->connection->Send(cellPos);
-    } else if (resources.getCurPlayerStr() == "Cross")
-    {
-        //cellPos = this->connection->ReadV();
-    }
-    this->processFieldClick(cellPos);
-}
-
-void TicTacToe::processLeftBtnServer(sf::Vector2f& cellPos)
-{
-    if(resources.getCurPlayerStr() == "Cross")
-    {
-        this->connection->Send(cellPos);
-    } else if (resources.getCurPlayerStr() == "Nought")
-    {
-        //cellPos = this->connection->ReadV();
-    }
-    this->processFieldClick(cellPos);
-}
-
 void TicTacToe::processLeftBtnClick(sf::Vector2f& cellPos)
 {
     gameStatus s = this->resources.getStatus();
