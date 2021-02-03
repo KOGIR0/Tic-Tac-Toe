@@ -46,29 +46,19 @@ void TicTacToe::processFieldClick(const sf::Vector2f& cellPos)
     }
 }
 
-void TicTacToe::processLeftBtnOfflineGame(sf::Vector2f& cellPos)
-{
-    this->processFieldClick(cellPos);
-}
-
 void TicTacToe::processLeftBtnClick(sf::Vector2f& cellPos)
 {
     gameStatus s = this->resources.getStatus();
     switch(s)
     {
     case (gameStatus::pvp):
-        this->processLeftBtnOfflineGame(cellPos);
+        this->processFieldClick(cellPos);
         break;
-    }
-    if (checkWinCondition(cellPos))
-    {
-        this->resources.setVictory(true);
-        this->game_ui->setMsg(this->resources.getNextPlayerStr() + " Won!");
-    }
-    if (checkDraw() && !this->resources.getVictory())
-    {
-        this->resources.setVictory(true);
-        this->game_ui->setMsg("Draw");
+    case (gameStatus::pve):
+        if(this->resources.getCurPlayerSybmol() == "X")
+        {
+            this->processFieldClick(cellPos);
+        }
     }
 }
 
@@ -84,10 +74,87 @@ void TicTacToe::resizeGameElements(const sf::Event::SizeEvent& es)
     this->game_ui->resize(newSize);
 }
 
+void TicTacToe::processAIturn()
+{
+    std::vector<std::vector<symbol>> prevMap = this->resources.getSymbolMap();
+    std::vector<std::vector<bool>> prevClickMap = this->game_ui->getClickedCellsMap();
+    if(!prevClickMap[prevMap.size() / 2][prevMap.size() / 2])
+    {
+        this->processFieldClick({prevMap.size() / 2, prevClickMap.size() / 2});
+        return;
+    }
+    for(float i = 0; i < prevMap.size(); i++)
+    {
+        for(float j = 0; j < prevMap.size(); j++)
+        {
+            if(!prevClickMap[i][j])
+            {
+                std::vector<std::vector<bool>> newClickMap = prevClickMap;
+                newClickMap[i][j] = true;
+                std::vector<std::vector<symbol>> newMap = prevMap;
+                newMap[i][j] = symbol::nought;
+                this->resources.setSymbolMap(newMap);
+                
+                symbol s = symbol::nought;
+                if(checkDiagonals({i, j}, newClickMap, s) ||
+                    checkHorizontalLines({i, j}, newClickMap, s) ||
+                    checkVerticalLine({i, j}, newClickMap, s))
+                {
+                    this->processFieldClick({i, j});
+                    return;
+                }
+                if(i != prevMap.size() && j != prevMap.size())
+                    this->resources.setSymbolMap(prevMap);
+            }
+        }
+    }
+    for(float i = 0; i < prevMap.size(); i++)
+    {
+        for(float j = 0; j < prevMap.size(); j++)
+        {
+            if(!prevClickMap[i][j])
+            {
+                std::vector<std::vector<bool>> newClickMap = prevClickMap;
+                newClickMap[i][j] = true;
+                std::vector<std::vector<symbol>> newMap = prevMap;
+                newMap[i][j] = symbol::cross;
+                this->resources.setSymbolMap(newMap);
+                
+                symbol s = symbol::cross;
+                if(checkDiagonals({i, j}, newClickMap, s) ||
+                    checkHorizontalLines({i, j}, newClickMap, s) ||
+                    checkVerticalLine({i, j}, newClickMap, s))
+                {
+                    this->processFieldClick({i, j});
+                    return;
+                }
+                if(i != prevMap.size() && j != prevMap.size())
+                    this->resources.setSymbolMap(prevMap);
+            }
+        }
+    }
+    for(int i = 0; i < prevMap.size(); i++)
+    {
+        for(int j = 0; j < prevMap.size(); j++)
+        {
+            if(!prevClickMap[i][j])
+            {
+                this->processFieldClick({i, j});
+                return;
+            }
+        }
+    }
+}
+
 void TicTacToe::process()
 {
     sf::Event event;
     sf::Vector2f cellPos;
+    gameStatus s = this->resources.getStatus();
+    if(s == gameStatus::pve && !this->resources.getVictory() && this->resources.getCurPlayerSybmol() == "O")
+    {
+        this->processAIturn();
+    }
     while (window->pollEvent(event))
     {
         switch (event.type)
@@ -99,7 +166,6 @@ void TicTacToe::process()
             if (event.mouseButton.button == sf::Mouse::Left)
             {
                 sf::Vector2i mousePos = { event.mouseButton.x, event.mouseButton.y };
-                gameStatus s = this->resources.getStatus();
                 if (s == gameStatus::menu)
                 {
                     int clickResult = this->game_ui->processMenuClick(mousePos);
@@ -110,32 +176,16 @@ void TicTacToe::process()
                     {
                         this->resources.setStatus(gameStatus::pve);
                     }
-                } else if(s == gameStatus::pvp){   
+                } else if(s == gameStatus::pvp || s == gameStatus::pve){
+                    cellPos = this->game_ui->getCellPosition(mousePos); 
                     if (this->game_ui->restartClick(mousePos))
                     {
                         this->resources.reset();
                         this->game_ui->reset();
                     } else if(cellPos.x != -1 && !this->resources.getVictory())
                     {
-                        if(this->resources.getStatus() == gameStatus::pvp)
-                        {
-                            cellPos = this->game_ui->getCellPosition(mousePos);
-                        }
-                        this->processLeftBtnClick(cellPos);
-                    }
-                } else if (s == gameStatus::pve)
-                {
-                    if (this->game_ui->restartClick(mousePos))
-                    {
-                        this->resources.reset();
-                        this->game_ui->reset();
-                    } else if(cellPos.x != -1 && !this->resources.getVictory())
-                    {
-                        if(this->resources.getStatus() == gameStatus::pvp)
-                        {
-                            cellPos = this->game_ui->getCellPosition(mousePos);
-                        }
-                        this->processLeftBtnClick(cellPos);
+                        if(this->resources.getCurPlayerSybmol() == "X" || s == gameStatus::pvp)
+                            this->processLeftBtnClick(cellPos);
                     }
                 }
             }
@@ -144,11 +194,19 @@ void TicTacToe::process()
             //restartBtn->setFillColor(sf::Color::White);
             break;
         case sf::Event::Resized:
-            std::cout << "Resizing elements" << std::endl;
             this->resizeGameElements(event.size);
-            std::cout << "Resizing elements end" << std::endl;
             break;
         }
+    }
+    if (cellPos.x != -1 && checkWinCondition(cellPos))
+    {
+        this->resources.setVictory(true);
+        this->game_ui->setMsg(this->resources.getNextPlayerStr() + " Won!");
+    }
+    if (checkDraw() && !this->resources.getVictory())
+    {
+        this->resources.setVictory(true);
+        this->game_ui->setMsg("Draw");
     }
 }
 
@@ -176,7 +234,8 @@ bool TicTacToe::checkWinCondition(const sf::Vector2f& lCkC)
     std::vector<std::vector<symbol>> map = this->resources.getSymbolMap();
     std::vector<std::vector<bool>> boolMap = this->game_ui->getClickedCellsMap();
     symbol lastSymbol = map[lCkC.x][lCkC.y];
-    return checkHorizontalLines(lCkC, boolMap, lastSymbol) || checkVerticalLine(lCkC, boolMap, lastSymbol)
+    return checkHorizontalLines(lCkC, boolMap, lastSymbol)
+        || checkVerticalLine(lCkC, boolMap, lastSymbol)
         || checkDiagonals(lCkC, boolMap, lastSymbol);
 }
 

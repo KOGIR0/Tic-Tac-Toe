@@ -33,7 +33,7 @@ private:
     bool checkDraw();
     void resizeGameElements(const sf::Event::SizeEvent &newSize);
     void processLeftBtnClick(sf::Vector2f& cellPos);
-    void processLeftBtnOfflineGame(sf::Vector2f& cellPos);
+    void processAIturn();
     void processFieldClick(const sf::Vector2f& cellPos);
     // server is also a player
     bool checkWinAndIncrement(int& num, const bool& condition);
