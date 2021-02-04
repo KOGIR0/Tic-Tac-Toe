@@ -38,7 +38,7 @@ void GameUI::drawMainMenu(sf::RenderWindow& window)
     window.draw(*this->mainMenu);
 }
 
-sf::Vector2f GameUI::getCellPosition(const sf::Vector2i& pos)
+sf::Vector2i GameUI::getCellPosition(const sf::Vector2i& pos)
 {
     return this->ticTacToeField->getClickedCellIndexes(pos);
 }
@@ -65,7 +65,7 @@ std::vector<std::vector<bool>> GameUI::getClickedCellsMap()
     return this->ticTacToeField->getBoolMap();
 }
 
-void GameUI::markCellWithSprite(const sf::Vector2f& cellPos, const std::string& texturePath)
+void GameUI::markCellWithSprite(const sf::Vector2i& cellPos, const std::string& texturePath)
 {
     this->ticTacToeField->markCell(cellPos.x, cellPos.y, texturePath);
 }
@@ -75,7 +75,7 @@ bool GameUI::restartClick(const sf::Vector2i& clickPos)
     return this->restartBtn->clicked(clickPos);
 }
 
-bool GameUI::fieldWasClicked(const sf::Vector2f& cellPos)
+bool GameUI::fieldWasClicked(const sf::Vector2i& cellPos)
 {
     return this->ticTacToeField->cellWasClicked(cellPos);
 }

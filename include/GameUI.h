@@ -23,14 +23,14 @@ public:
     void reset();
     void setMsg(const std::string& msg);
     // marks cell at given position with sprite with size of a cell
-    void markCellWithSprite(const sf::Vector2f& cellPos, const std::string& texturePath);
+    void markCellWithSprite(const sf::Vector2i& cellPos, const std::string& texturePath);
     int processMenuClick(const sf::Vector2i& clickPos);
     int processOnlineMenuClick(const sf::Vector2i& clickPos);
     bool restartClick(const sf::Vector2i& clickPos);
     // returns whether cell was clicked or no
-    bool fieldWasClicked(const sf::Vector2f& cellPos);
+    bool fieldWasClicked(const sf::Vector2i& cellPos);
     std::vector<std::vector<bool>> getClickedCellsMap();
-    sf::Vector2f getCellPosition(const sf::Vector2i& pos);
+    sf::Vector2i getCellPosition(const sf::Vector2i& pos);
     int getFieldSize() { return this->ticTacToeField->getSize(); }
     int getFilledCellsNum() { return this->ticTacToeField->getFilledCellsNum(); }
 

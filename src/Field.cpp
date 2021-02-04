@@ -21,7 +21,7 @@ void Field::clear()
     this->filledCellsNum = 0;
 }
 
-sf::Vector2f Field::getClickedCellIndexes(const sf::Vector2i& position)
+sf::Vector2i Field::getClickedCellIndexes(const sf::Vector2i& position)
 {
     for (int i = 0; i < this->cellNum; i++)
     {
@@ -29,14 +29,14 @@ sf::Vector2f Field::getClickedCellIndexes(const sf::Vector2i& position)
         {
             if (field[i][j].clicked(position))
             {
-                return sf::Vector2f(i, j);
+                return {i, j};
             }
         }
     }
     return { -1, -1 };
 }
 
-sf::Vector2f Field::getClickedCellIndexes(const float& x, const float& y)
+sf::Vector2i Field::getClickedCellIndexes(const float& x, const float& y)
 {
     for (int i = 0; i < this->cellNum; i++)
     {
@@ -44,7 +44,7 @@ sf::Vector2f Field::getClickedCellIndexes(const float& x, const float& y)
         {
             if (field[i][j].clicked(sf::Vector2f( x, y )))
             {
-                return sf::Vector2f(i, j);
+                return {i, j};
             }
         }
     }
@@ -188,7 +188,7 @@ void Field::markCell(const int& i, const int& j, const std::string& texturePath)
     }
 }
 
-bool Field::cellWasClicked(sf::Vector2f position)
+bool Field::cellWasClicked(sf::Vector2i position)
 {
     return map[position.x][position.y];
 }

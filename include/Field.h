@@ -15,13 +15,13 @@ class Field : public sf::Drawable
 public:
     Field(const int& screenWidth = 500.f, const int& screenHeight = 500.f, const int& cellNum = 3);
 
-    sf::Vector2f getClickedCellIndexes(const float& x, const float& y);
-    sf::Vector2f getClickedCellIndexes(const sf::Vector2i& position);
+    sf::Vector2i getClickedCellIndexes(const float& x, const float& y);
+    sf::Vector2i getClickedCellIndexes(const sf::Vector2i& position);
     sf::Vector2f getCellSize();
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
     void setFieldSize(const float& width, const float& height);
     void markCell(const int& i, const int& j, const std::string& texturePath);
-    bool cellWasClicked(sf::Vector2f position);
+    bool cellWasClicked(sf::Vector2i position);
     std::vector<std::vector<bool>> getBoolMap();
     void clear();
     int getFilledCellsNum() { return this->filledCellsNum; }

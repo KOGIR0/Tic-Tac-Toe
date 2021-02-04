@@ -27,19 +27,19 @@ private:
     sf::RenderWindow* window;
     GameUI* game_ui;
 
-    void setSymbol(sf::Vector2f position, std::string s);
-    bool checkWinCondition(const sf::Vector2f& lCkC);
-
+    void setSymbol(sf::Vector2i cellPos, std::string s);
+    bool checkWinCondition(const sf::Vector2i& lCkC);
     bool checkDraw();
     void resizeGameElements(const sf::Event::SizeEvent &newSize);
-    void processLeftBtnClick(sf::Vector2f& cellPos);
-    void processAIturn();
-    void processFieldClick(const sf::Vector2f& cellPos);
+    void processLeftBtnClick(sf::Vector2i& cellPos);
+    sf::Vector2i processAIturn();
+    bool tryTurn(sf::Vector2i turn, const symbol& s);
+    void processFieldClick(const sf::Vector2i& cellPos);
     // server is also a player
     bool checkWinAndIncrement(int& num, const bool& condition);
-    bool checkDiagonals(const sf::Vector2f& lCkC, const std::vector<std::vector<bool>>& boolMap, const symbol& symbol);
-    bool checkHorizontalLines(const sf::Vector2f& lCkC, const std::vector<std::vector<bool>>& boolMap, const symbol& symbol);
-    bool checkVerticalLine(const sf::Vector2f& lCkC, const std::vector<std::vector<bool>>& boolMap, const symbol& symbol);
+    bool checkDiagonals(const sf::Vector2i& lCkC, const std::vector<std::vector<bool>>& boolMap, const symbol& symbol);
+    bool checkHorizontalLines(const sf::Vector2i& lCkC, const std::vector<std::vector<bool>>& boolMap, const symbol& symbol);
+    bool checkVerticalLine(const sf::Vector2i& lCkC, const std::vector<std::vector<bool>>& boolMap, const symbol& symbol);
 };
 
 #endif
