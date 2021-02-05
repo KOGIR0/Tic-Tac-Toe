@@ -4,26 +4,19 @@
 GameUI::GameUI(const float& screenWidth, const float& screenHeight)
 {
     std::vector<std::string> btnsTxt = {"pvp game", "pve game"};
-    this->mainMenu = new Menu({screenWidth, screenHeight}, btnsTxt);
+    this->mainMenu = std::unique_ptr<Menu>(new Menu({screenWidth, screenHeight}, btnsTxt));
     
-    ticTacToeField = new Field(FIELD_PERCENTAGE_X * screenWidth,
-        FIELD_PERCENTAGE_Y * screenHeight, CELL_NUMBER);
+    ticTacToeField = std::unique_ptr<Field>(new Field(FIELD_PERCENTAGE_X * screenWidth,
+        FIELD_PERCENTAGE_Y * screenHeight, CELL_NUMBER));
 
-    text = new Text("times-new-roman.ttf", "Cross Turn");
+    text = std::unique_ptr<Text>(new Text("times-new-roman.ttf", "Cross Turn"));
     text->setPosition({this->text->getSize().x / 2.0f ,
         FIELD_PERCENTAGE_Y * screenHeight + this->text->getSize().y / 2.0f + 5});
 
-    restartBtn = new Button("restartBtn.png", 100.f, screenHeight * (1.f - FIELD_PERCENTAGE_Y),
-        { screenWidth - 100.f, FIELD_PERCENTAGE_Y * screenHeight });
+    restartBtn = std::unique_ptr<Button>(new Button("restartBtn.png",
+        100.f, screenHeight * (1.f - FIELD_PERCENTAGE_Y),
+        { screenWidth - 100.f, FIELD_PERCENTAGE_Y * screenHeight }));
     restartBtn->setFillColor(sf::Color::White);
-}
-
-GameUI::~GameUI()
-{
-    delete this->mainMenu;
-    delete this->restartBtn;
-    delete this->text;
-    delete this->ticTacToeField;
 }
 
 void GameUI::drawGame(sf::RenderWindow& window)

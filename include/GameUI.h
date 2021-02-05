@@ -4,6 +4,7 @@
 #include <SFML/Graphics.hpp>
 #include <string>
 #include <vector>
+#include <memory>
 
 #include "Field.h"
 #include "Text.h"
@@ -15,8 +16,7 @@
 
 class GameUI {
 public:
-    GameUI(const float& screenWidth, const float& screenHeight);
-    ~GameUI();
+    GameUI(const float& screenWidth = 100.f, const float& screenHeight = 100.f);
     void drawMainMenu(sf::RenderWindow& window);
     void drawGame(sf::RenderWindow& window);
     void resize(const sf::Vector2u& newSize);
@@ -35,11 +35,11 @@ public:
     int getFilledCellsNum() { return this->ticTacToeField->getFilledCellsNum(); }
 
 private:
-    Field* ticTacToeField;
-    Button* restartBtn;
-    Text* text;
-    Menu* mainMenu;
-    Menu* onlineMenu;
+    std::unique_ptr<Field> ticTacToeField;
+    std::unique_ptr<Button> restartBtn;
+    std::unique_ptr<Text> text;
+    std::unique_ptr<Menu> mainMenu;
+    std::unique_ptr<Menu> onlineMenu;
 };
 
 #endif

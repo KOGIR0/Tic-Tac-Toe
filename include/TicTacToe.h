@@ -1,10 +1,11 @@
 #ifndef TIKTAKTOE
 #define TIKTAKTOE
 
+#include <vector>
+#include <memory>
 #include "Field.h"
 #include "SFML/Graphics.hpp"
 #include "Text.h"
-#include <vector>
 #include "GameUI.h"
 #include "GameResources.h"
 
@@ -17,15 +18,14 @@ class TicTacToe
 {
 public:
     TicTacToe();
-    ~TicTacToe();
     bool isRunning();
     void process();
     void updateWindow();
 
 private:
     GameResources resources;
-    sf::RenderWindow* window;
-    GameUI* game_ui;
+    std::unique_ptr<sf::RenderWindow> window;
+    GameUI game_ui;
 
     void setSymbol(sf::Vector2i cellPos, std::string s);
     bool checkWinCondition(const sf::Vector2i& lCkC);
@@ -35,7 +35,6 @@ private:
     sf::Vector2i processAIturn();
     bool tryTurn(sf::Vector2i turn, const symbol& s);
     void processFieldClick(const sf::Vector2i& cellPos);
-    // server is also a player
     bool checkWinAndIncrement(int& num, const bool& condition);
     bool checkDiagonals(const sf::Vector2i& lCkC, const std::vector<std::vector<bool>>& boolMap, const symbol& symbol);
     bool checkHorizontalLines(const sf::Vector2i& lCkC, const std::vector<std::vector<bool>>& boolMap, const symbol& symbol);
